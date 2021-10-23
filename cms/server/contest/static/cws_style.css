@@ -359,6 +359,12 @@ div.login_box {
 
 #unread_count {
     float: right;
+    position: absolute;
+    line-height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    right: 21px;
 }
 
 #unread_count.no_unread {

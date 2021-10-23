@@ -50,7 +50,11 @@ $(document).ready(function () {
         <div id="navigation_bar" class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                 <div id="navigation" class="container">
-                    <a class="brand" onclick="navigationSwap()">{{ contest.description }}</a>
+                    <div class="brand_cover" onclick="navigationSwap()">
+                        <a class="brand">{{ contest.description }}</a>
+                        <div class="closeForm" style="display: none; background-image: url('{{ url("static", "img", "glyphicons-halflings.png") }}')"></div>
+                        <div class="openForm" style="display: block; background-image: url('{{ url("static", "img", "glyphicons-halflings.png") }}')"></div>
+                    </div>
 {% if available_translations|length > 1 %}
                     <p class="navbar-text pull-left">
                         <select id="lang" class="form-control btn btn-info" onchange="utils.switch_lang()">
@@ -86,11 +90,18 @@ $(document).ready(function () {
                             <ul class="nav nav-list">
 
                                 <li{% if page == "overview" %} class="active"{% endif %}>
-                                    <a href="{{ contest_url() }}">{% trans %}Overview{% endtrans %}</a>
+                                    <a href="{{ contest_url() }}">{% trans %}Overview{% endtrans %}
+                                        <span class="label">
+                                            <div class="icon" style="background-image: url('{{ url("static", "img", "glyphicons-halflings.png") }}'); background-position: 0px -24px;"></div>
+                                        </span>
+                                    </a>
                                 </li>
                                 <li{% if page == "communication" %} class="active"{% endif %}>
                                     <a href="{{ contest_url("communication") }}">{% trans %}Communication{% endtrans %}
-                                        <span id="unread_count" class="label label-warning no_unread"></span>
+                                        <span class="label">
+                                            <div class="icon" style="background-image: url('{{ url("static", "img", "glyphicons-halflings.png") }}'); background-position: -48px -144px;"></div>
+                                            <span id="unread_count" class="label-warning no_unread"></span>
+                                        </span>
                                     </a>
                                 </li>
         {% if actual_phase == 0 or actual_phase == 3 or participation.unrestricted %}
@@ -119,7 +130,11 @@ $(document).ready(function () {
             {% endfor %}
         {% endif %}
                                 <li{% if page == "documentation" %} class="active"{% endif %}>
-                                    <a href="{{ contest_url("documentation") }}">{% trans %}Documentation{% endtrans %}</a>
+                                    <a href="{{ contest_url("documentation") }}">{% trans %}Documentation{% endtrans %}
+                                        <span class="label">
+                                            <div class="icon" style="background-image: url('{{ url("static", "img", "glyphicons-halflings.png") }}'); background-position: -23px -24px;"></div>
+                                        </span>
+                                    </a>
                                 </li>
         {% if actual_phase == 0 or participation.unrestricted %}{# FIXME maybe >= 0? #}
             {% if testing_enabled %}

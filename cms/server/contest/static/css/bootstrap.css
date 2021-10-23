@@ -122,7 +122,7 @@ a.label:hover,a.badge:hover{color:#ffffff;text-decoration:none;cursor:pointer;}
     background-color: rgba(249, 159, 157, .8);
 }
 .label-warning, .badge-warning {
-    background-color: rgba(248, 148, 6, .8);
+    background-color: rgba(255, 220, 80, .5);
 }
 .label-success, .badge-success {
     background-color: rgba(140, 236, 88, .8);
@@ -673,7 +673,7 @@ button.close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-ap
 
 .brand {
     margin: 15px;
-    width: calc(100% - 30px);
+    width: calc(100% - 80px);
     display: block;
     text-align: center;
     color: black;
@@ -683,6 +683,34 @@ button.close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-ap
     text-align: left;
     margin-left: 15px;
     pointer-events: all;
+    float: left;
+}
+
+.closeForm {
+    width: 15px;
+    height: 15px;
+    background-position: -432px -72px;
+    position: relative;
+    float: right;
+    right: 32px;
+    top: 20px;
+}
+
+.openForm {
+    width: 15px;
+    height: 15px;
+    background-position: -454px -72px;
+    position: relative;
+    float: right;
+    right: 32px;
+    top: 20px;
+}
+
+.brand_cover {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
 }
 
 .navbar-text {
@@ -1004,6 +1032,12 @@ body {
     font-weight: normal;
 }
 
+.icon {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+}
+
 div.announcement_list div.announcement,
 div.question_list div.question,
 div.question_list div.answer,
@@ -1200,5 +1234,5 @@ tr:hover {
 }
 
 .idx, .outcome, .details {
-    height: 30px !important;
+    height: 30px;
 }

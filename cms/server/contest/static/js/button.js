@@ -1,24 +1,19 @@
 $(document).ready(function () {
-  Array.prototype.forEach.call(
-    document.getElementsByTagName('button'), function(item) {
+  Array.prototype.forEach.call(document.getElementsByTagName('button'), function(item) {
     item.addEventListener('mousedown', createRipple);
   });
-  Array.prototype.forEach.call(
-    document.getElementsByTagName('textarea'), function(item) {
+  Array.prototype.forEach.call(document.getElementsByTagName('textarea'), function(item) {
     item.addEventListener('keyup', autoGrow);
   });
   if (navHide) navigationHide();
   else navigationShow();
-  Array.prototype.forEach.call(
-    document.getElementsByClassName('brand'), function(item) {
+  Array.prototype.forEach.call(document.getElementsByClassName('brand_cover'), function(item) {
     item.addEventListener('mousedown', nav_createRipple);
   });
-  Array.prototype.forEach.call(
-    document.getElementsByClassName('time_box'), function(item) {
+  Array.prototype.forEach.call(document.getElementsByClassName('time_box'), function(item) {
     item.addEventListener('mousedown', nosc_createRipple);
   });
-  Array.prototype.forEach.call(
-    $(".nav a"), function(item) {
+  Array.prototype.forEach.call($(".nav a"), function(item) {
     item.addEventListener('mousedown', nosc_createRipple);
   });
   setInterval(function () {
@@ -85,15 +80,13 @@ function navigationHide() {
   if ($(".time_countdown")[1]) {
     $(".time_countdown")[0].style.marginRight = "100px";
     $(".time_countdown")[1].style.marginRight = "0";
-    $(".time_countdown")[1].style.marginTop = "42px";
-    $(".time_countdown")[1].style.marginBottom = "-42px";
     $(".time_countdown")[1].style.fontSize = "18px";
-    $(".time_box")[1].style.overflow = "visible";
-    $(".time_box")[1].style.pointerEvents = "none";
   }
   if ($("#navbar-info")[0]) {
     $("#navbar-info")[0].style.marginLeft = "-100%";
   }
+  $(".closeForm").css("display", "none");
+  $(".openForm").css("display", "block");
 }
 
 function navigationShow() {
@@ -101,13 +94,11 @@ function navigationShow() {
   if ($(".time_countdown")[1]) {
     $(".time_countdown")[0].style.marginRight = "50px";
     $(".time_countdown")[1].style.marginRight = "50px";
-    $(".time_countdown")[1].style.marginTop = "0";
-    $(".time_countdown")[1].style.marginBottom = "0";
     $(".time_countdown")[1].style.fontSize = "24px";
-    $(".time_box")[1].style.overflow = "hidden";
-    $(".time_box")[1].style.pointerEvents = "all";
   }
   if ($("#navbar-info")[0]) {
     $("#navbar-info")[0].style.marginLeft = "0";
   }
+  $(".closeForm").css("display", "block");
+  $(".openForm").css("display", "none");
 }
