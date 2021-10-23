@@ -1,17 +1,18 @@
 body {
     /* FIXME: I'd suggest putting a 0.75em font-size */
-    font: 1em/1.5em sans-serif;
-
-    color: black;
-
-    background-color: #F6F6F6;
-    background-image: -webkit-linear-gradient(#FFFFFF, #EDEDED);
-    background-image:    -moz-linear-gradient(#FFFFFF, #EDEDED);
-    background-image:      -o-linear-gradient(#FFFFFF, #EDEDED);
-    background-image:         linear-gradient(#FFFFFF, #EDEDED);
+    background: linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35));
+    background-repeat: no-repeat;
     background-attachment: fixed;
-
+    background-size: cover;
+    height: 100%;
+    display: block;
+    -webkit-transition-duration: 2s;
+    transition-duration: 2s;
     margin: 0;
+    font-family: "Roboto", "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 18px;
+    color: 0;
 }
 
 /* TODO: the following two might be omitted */
@@ -42,46 +43,43 @@ abbr {
     width: 200px;
 }
 
-#UpperPanel {
-    position: absolute;
-    top: 0;
-    left: 248px;
-    right: 0;
-    height: 3em;
-    border-width: 0 0 2px 2px;
-    border-style: solid;
-    border-color: #FAFAFA;
-    border-radius: 0 0 0 10px;
-    background-color: #EAEAEC;
-    box-shadow: 0 0 2px 0 gray;
-    z-index: 100;
-}
-
 #SidePanel {
     position: absolute;
     left: 0;
-    top: 208px;
-    bottom: 30px;
+    bottom: 60px;
     width: 220px;
-    border-width: 2px 2px 2px 0;
-    border-style: solid;
-    border-color: #FAFAFA;
-    border-radius: 0 10px 10px 0;
-    background-color: #EAEAEC;
-    box-shadow: 0 0 2px 0 gray;
+    background-color: rgba(255, 255, 255, .4);
     z-index: 8;
     padding: 0;
 }
 
 #InnerFrame {
     position: absolute;
-    top: 3em;
     left: 220px;
     right: 0;
     bottom: 0;
     margin: 2px 0 0 2px;
     padding: 0 3em;
     overflow-y: scroll;
+}
+
+@media (min-width: 1000px) {
+    #InnerFrame {
+        left: 220px;
+        top: 0;
+    }
+    #SidePanel {
+        display: block;
+    }
+}
+@media not screen and (min-width: 1000px) {
+    #InnerFrame {
+        left: 0;
+        top: 100px;
+    }
+    #SidePanel {
+        display: none;
+    }
 }
 
 
@@ -94,11 +92,22 @@ abbr {
 
 #TimeView {
     position: absolute;
-    top: 208px;
-    left: 0;
-    width: 220px;
+    left: 20px;
     z-index: 10;
     text-align: center;
+}
+
+@media (min-width: 1000px) {
+    #TimeView {
+        top: 50px;
+        width: 220px;
+    }
+}
+@media not screen and (min-width: 1000px) {
+    #TimeView {
+        top: 35px;
+        width: calc(100% - 40px);
+    }
 }
 
 #TimeView_selector {
@@ -119,11 +128,7 @@ abbr {
 #TimeView.pre_cont #TimeView_selector:hover,
 #TimeView.cont #TimeView_selector:hover,
 #TimeView_selector.open {
-    margin: 2px;
-    background-color: #EAEAEC;
-    border: 2px solid #FAFAFA;
-    border-radius: 4px;
-    box-shadow: 0 0 2px 0 gray;
+    background-color: rgba(255, 255, 255, 1);
 }
 
 #TimeView_selector.open {
@@ -161,10 +166,6 @@ abbr {
     border-bottom: 0;
 }
 
-#TimeView_selector:hover .caret {
-    border-top-color: #000000;
-}
-
 #TimeView_selector.open .caret {
     top: 10px;
     border-top: 0;
@@ -197,27 +198,15 @@ abbr {
     display: none;
 }
 
-#TimeView.elapsed #TimeView_selector_elapsed,
-#TimeView.remaining #TimeView_selector_remaining,
-#TimeView.current #TimeView_selector_current {
-    background-color: #F2F2F3;
-    color: #000000;
-}
-
-#TimeView_selector_elapsed:hover,
-#TimeView_selector_remaining:hover,
-#TimeView_selector_current:hover {
-    background-color: #FAFAFA !important;
-    color: #000000;
-}
-
 #TimeView + #SidePanel {
-    top: 256px;
+    top: 140px;
+    left: 20px;
 }
 
 #TimeView.pre_cont + #SidePanel,
 #TimeView.cont + #SidePanel {
-    top: 280px;
+    top: 140px;
+    left: 20px;
 }
 
 
@@ -253,7 +242,6 @@ abbr {
     border: 0;
     padding: 0.25em;
     z-index: 401;
-    border-radius: 0.5em;
     /* Needed to override WebKit's default font size for inputs */
     font: inherit;
     background-color: #FFFFFF;
@@ -286,7 +274,6 @@ abbr {
     bottom: 0;
     width: 940px;
     margin: 64px auto 48px;
-    border-radius: 12px;
     background-color: white;
 }
 
@@ -374,7 +361,7 @@ abbr {
 #Scoreboard {
     width: 100%;
     table-layout: fixed;
-    margin: 3em 0;
+    margin: 5px 0;
 }
 
 #Scoreboard_cols col.sel {
@@ -395,20 +382,7 @@ abbr {
     width:         calc(2em + 20px);
 }
 
-#Scoreboard_head tr {
-    height: 2.5em;
-}
-
-#Scoreboard_body tr {
-    height: 2em;
-}
-
 #Scoreboard_head tr th {
-    background-color: #ECECEF;
-    border: 1px #D0D0D2 solid;
-    border-radius: 4px;
-    box-shadow: 0 0 2px 0 #D2D2D4 inset;
-    height: 24px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -423,7 +397,6 @@ abbr {
     max-width: 40px;
     max-height: 20px;
     margin: 0 auto;
-    box-shadow: 0 0 2px 0 gray;
 }
 
 #Scoreboard_head tr th,
@@ -433,7 +406,6 @@ abbr {
 
 #Scoreboard_body tr td.f_name,
 #Scoreboard_body tr td.l_name {
-    text-align: left;
     padding: 0 0.5em;
     cursor: pointer;
 }
@@ -452,7 +424,6 @@ abbr {
 #Scoreboard_body tr:hover td.l_name,
 #Scoreboard_body tr:hover td.team {
     background-color: rgba(200,200,200,0.35);
-    border-radius: 5px;
 }
 
 #Scoreboard_body tr.selected td.f_name,
@@ -491,8 +462,6 @@ abbr {
 
 #Scoreboard_body tr.selected td.sel {
     background: url('img/tick_white.png') no-repeat center transparent;
-    border: 1px solid rgba(0,0,0,0.2);
-    border-radius: 4px;
     opacity: 1;
 }
 
@@ -622,7 +591,6 @@ abbr {
  */
 
 #Scoreboard_body tr.score_up td.rank {
-    border-radius: 5px;
     -webkit-animation-duration: 5s;
        -moz-animation-duration: 5s;
          -o-animation-duration: 5s;
@@ -638,7 +606,6 @@ abbr {
 }
 
 #Scoreboard_body tr.score_down td.rank {
-    border-radius: 5px;
     -webkit-animation-duration: 5s;
        -moz-animation-duration: 5s;
          -o-animation-duration: 5s;
@@ -702,7 +669,6 @@ abbr {
 }
 
 #Scoreboard_body tr.selected.score_up td.rank {
-    border-radius: 5px;
     -webkit-animation-duration: 10s;
        -moz-animation-duration: 10s;
          -o-animation-duration: 10s;
@@ -718,7 +684,6 @@ abbr {
 }
 
 #Scoreboard_body tr.selected.score_down td.rank {
-    border-radius: 5px;
     -webkit-animation-duration: 10s;
        -moz-animation-duration: 10s;
          -o-animation-duration: 10s;
@@ -787,12 +752,6 @@ abbr {
 
 #Scoreboard_body tr td.score {
     opacity: 0.75;
-    border-radius: 5px;
-}
-
-#Scoreboard_body tr td.score.sort_key {
-    border: 1px solid #777777;
-    box-shadow: 0 0 1px white inset;
 }
 
 #Scoreboard_body tr:hover td.score,
@@ -893,20 +852,40 @@ abbr {
     top: 0;
     left: 0;
     right: 0;
-    width: 920px;
-    margin: 48px auto;
-    padding: 20px;
-    border-radius: 12px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, .95);
+}
+
+@media (min-width: 1000px) {
+    #UserDetail {
+        width: 920px;
+        margin: 48px auto;
+        padding: 20px;
+    }
+    #UserDetail_close {
+        display: none;
+    }
+}
+@media not screen and (min-width: 1000px) {
+    #UserDetail {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    #UserDetail_close {
+        display: block;
+    }
 }
 
 #UserDetail_close {
     position: absolute;
-    top: -10px;
-    right: -10px;
+    top: 10px;
+    right: 10px;
     width: 24px;
     height: 24px;
     cursor: pointer;
+    z-index: 1;
+    text-align: center;
+    font-size: 30px;
 }
 
 #UserDetail_header {
@@ -919,7 +898,7 @@ abbr {
 #UserDetail_team,
 #UserDetail_flag {
     position: absolute;
-    right: 470px;
+    left: 15px;
     font-size: 2em;
     line-height: 1.5em;
 }
@@ -958,8 +937,7 @@ abbr {
 }
 
 #UserDetail_navigator {
-    width: 450px;
-    margin-left: 470px;
+    width: 100%;
 }
 
 #UserDetail_navigator table {
@@ -985,25 +963,6 @@ abbr {
     width: 14%;
 }
 
-#UserDetail_navigator tr td.score,
-#UserDetail_navigator tr td.rank {
-    padding-left: 4px;
-}
-
-#UserDetail_navigator tbody tr td.btn {
-    text-align: center;
-    border: 1px solid #999999;
-    box-shadow: 0 0 2px gray;
-    background-color: #EEEEEE;
-    border-radius: 3px;
-    cursor: pointer;
-    -webkit-user-select: none;
-     -khtml-user-select: none;
-       -moz-user-select: none;
-         -o-user-select: none;
-            user-select: none;
-}
-
 #UserDetail_navigator tbody tr td.btn:hover {
     background-color: #DDDDDD;
 }
@@ -1022,27 +981,11 @@ abbr {
 }
 
 #UserDetail_navigator tr.global {
-    background-color: #DDDDDD;
+    background-color: rgba(255, 255, 255, .8);
 }
 
 #UserDetail_navigator tr.contest {
-    background-color: #EEEEEE;
-}
-
-#UserDetail_navigator tr.task {
-    background-color: #FFFFFF;
-}
-
-#UserDetail_navigator tr.global td.name {
-    padding-left: 5px;
-}
-
-#UserDetail_navigator tr.contest td.name {
-    padding-left: 25px;
-}
-
-#UserDetail_navigator tr.task td.name {
-    padding-left: 45px;
+    background-color: rgba(255, 255, 255, .4);
 }
 
 #UserDetail_title {
@@ -1071,23 +1014,6 @@ abbr {
     table-layout: fixed;
 }
 
-#UserDetail_submissions td {
-    height: 22px;
-    padding-left: 4px;
-}
-
-#UserDetail_submissions thead {
-    background-color: #DDDDDD;
-}
-
-#UserDetail_submissions tbody tr:nth-child(even) {
-    background-color: #EEEEEE;
-}
-
-#UserDetail_submissions tbody tr:nth-child(odd) {
-    background-color: #F8F8F8;
-}
-
 #UserDetail_submissions tbody td[colspan] {
     text-align: center;
     font-style: italic;
@@ -1108,50 +1034,24 @@ abbr {
 #ConnectionStatus_label {
     display: inline-block;
     position: relative;
-    height: 1.5em;
-    padding: 0.25em 20px;
     margin: -1px 0;
     z-index: 2;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 4px;
     -webkit-user-select: none;
        -moz-user-select: none;
         -ms-user-select: none;
          -o-user-select: none;
             user-select: none;
-}
-
-#ConnectionStatus_box:hover #ConnectionStatus_label {
-    border-bottom-width: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-#ConnectionStatus_text {
-    display: none;
-    position: absolute;
-    top: 2em;
-    right: 0;
-    width: 240px;
-    padding: 0.5em;
-    margin-top: -1px;
-    z-index: 1;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 4px 0 4px 4px;
-}
-
-#ConnectionStatus_box:hover #ConnectionStatus_text,
-#ConnectionStatus_text:hover {
-    display: block;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    right: 15px;
 }
 
 #ConnectionStatus_box[data-status="connected"] #ConnectionStatus_label,
 #ConnectionStatus_box[data-status="connected"] #ConnectionStatus_text {
     background-color: white;
     color: green;
-    border-color: green;
+    border-color: black;
 }
 
 #ConnectionStatus_box[data-status="reconnecting"] #ConnectionStatus_label,
@@ -1175,4 +1075,37 @@ abbr {
 #ConnectionStatus_box a {
     cursor: pointer;
     text-decoration: underline;
+}
+
+th, td {
+    height: 50px;
+}
+
+table {
+    text-align: center;
+}
+
+button {
+    text-decoration: none;
+    background-color: white;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    padding: 12px 20px;
+    font-size: 15px;
+    margin: 5px;
+    border: 0px solid #4F91FE;
+    overflow: hidden;
+    position: relative;
+    border-width: 0px;
+    cursor: pointer;
+}
+
+button:focus, button:active {
+    background-color: #E0E0E0;
+}
+
+button:active {
+    border: 1.5px solid #4F91FE;
+    border-width: 3px;
+    margin: 3.5px;
 }

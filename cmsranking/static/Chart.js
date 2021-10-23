@@ -200,3 +200,11 @@ var Chart = new function () {
         context.fill();
     };
 };
+
+window.onresize = function (e) {
+    Array.prototype.forEach.call(document.getElementsByTagName('canvas'), function (item) {
+        item.width = $("#UserDetail").width() - 20;
+        item.hegiht = $("#UserDetail").height() - 20;
+    });
+    UserDetail.init();
+};

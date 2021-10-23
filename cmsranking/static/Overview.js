@@ -77,8 +77,8 @@ var Overview = new function () {
 
         // HEADERS ("Score" and "Rank")
         self.paper.setStart();
-        self.paper.text(4, 10, "Score").attr("text-anchor", "start");
-        self.paper.text(self.width - 4, 10, "Rank").attr("text-anchor", "end");
+        self.paper.text(4, 10, "점수").attr("text-anchor", "start");
+        self.paper.text(self.width - 4, 10, "순위").attr("text-anchor", "end");
         var set = self.paper.setFinish();
         set.attr({"font-size": "12px", "fill": "#000000", "stroke": "none", "font-family": "sans-serif", "opacity": 0});
 
@@ -120,7 +120,7 @@ var Overview = new function () {
             self.score_axis.attr("path", d);
         } else {
             self.score_axis = self.paper.path(d).attr(
-                {"fill": "none", "stroke": "#b8b8b8", "stroke-width": 3, "stroke-linecap": "round"});
+                {"fill": "none", "stroke": "#000000", "stroke-width": 3, "stroke-linecap": "round"});
         }
     };
 
@@ -229,10 +229,10 @@ var Overview = new function () {
     self.create_score_chart = function () {
         self.recompute();
         var s_path = self.make_path_for_score_chart();
-        self.score_line = self.paper.path(s_path).attr({"fill": "none", "stroke": "#cccccc", "stroke-width": 2, "stroke-linecap": "round"});
+        self.score_line = self.paper.path(s_path).attr({"fill": "none", "stroke": "#000000", "stroke-width": 2, "stroke-linecap": "round"});
         s_path += Raphael.format(" L {0},{1} {0},{2} Z", self.PAD_L, self.PAD_T, self.height - self.PAD_B);
-        self.score_back = self.paper.path(s_path).attr({"fill": "0-#E4E4E4-#DADADB", "stroke": "none"});
-        self.score_back.toBack();
+        //self.score_back = self.paper.path(s_path).attr({"fill": "0-#E4E4E4-#DADADB", "stroke": "none"});
+        //self.score_back.toBack();
     };
 
 
@@ -240,7 +240,7 @@ var Overview = new function () {
         var s_path = self.make_path_for_score_chart();
         self.score_line.animate({'path': s_path}, t);
         s_path += Raphael.format(" L {0},{1} {0},{2} Z", self.PAD_L, self.PAD_T, self.height - self.PAD_B);
-        self.score_back.animate({'path': s_path}, t);
+        //self.score_back.animate({'path': s_path}, t);
     };
 
 
@@ -359,7 +359,7 @@ var Overview = new function () {
         self.paper.setStart();
         self.paper.path(d).attr({
             "fill": color_b,
-            "stroke": color_a,
+            "stroke": color_b,
             "stroke-width": self.MARKER_STROKE_WIDTH,
             "stroke-linejoin": "round"});
         // Place the text inside the label, with a padding-right equal to its

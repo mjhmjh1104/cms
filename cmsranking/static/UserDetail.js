@@ -50,11 +50,11 @@ var UserDetail = new function () {
         self.score_chart = $('#UserDetail_score_chart')[0];
         self.rank_chart = $('#UserDetail_rank_chart')[0];
 
-        self.navigator.on("click", "td.btn", function () {
+        self.navigator.on("click", "button.btn", function () {
             if (self.active !== null) {
                 self.active.removeClass("active");
             }
-            self.active = $(this).parent();
+            self.active = $(this).parent().parent().parent();
             self.active.addClass("active");
 
             if (self.active.hasClass('global')) {
@@ -165,10 +165,10 @@ var UserDetail = new function () {
             }
 
             var s = "<tr class=\"global\"> \
-                        <td class=\"name\">Global</td> \
+                        <td class=\"name\">총점</td> \
                         <td class=\"score\">" + (self.global_s.length > 0 ? round_to_str(self.global_s[self.global_s.length-1][1], DataStore.global_score_precision) : 0) + "</td> \
                         <td class=\"rank\">" + (self.global_r.length > 0 ? self.global_r[self.global_r.length-1][1] : 1) + "</td> \
-                        <td class=\"btn\"><a>Show</a></td> \
+                        <td class=\"\"><a><button class=\"btn\">보기</button></a></td> \
                     </tr>";
 
             var contests = DataStore.contest_list;
@@ -180,7 +180,7 @@ var UserDetail = new function () {
                          <td class=\"name\">" + contest['name'] + "</td> \
                          <td class=\"score\">" + (self.contest_s[c_id].length > 0 ? round_to_str(self.contest_s[c_id][self.contest_s[c_id].length-1][1], contest["score_precision"]) : 0) + "</td> \
                          <td class=\"rank\">" + (self.contest_r[c_id].length > 0 ? self.contest_r[c_id][self.contest_r[c_id].length-1][1] : 1) + "</td> \
-                         <td class=\"btn\"><a>Show</a></td> \
+                         <td class=\"\"><a><button class=\"btn\">보기</button></a></td> \
                       </tr>"
 
                 var tasks = contest["tasks"];
@@ -192,7 +192,7 @@ var UserDetail = new function () {
                              <td class=\"name\">" + task['name'] + "</td> \
                              <td class=\"score\">" + (self.task_s[t_id].length > 0 ? round_to_str(self.task_s[t_id][self.task_s[t_id].length-1][1], task["score_precision"]) : 0) + "</td> \
                              <td class=\"rank\">" + (self.task_r[t_id].length > 0 ? self.task_r[t_id][self.task_r[t_id].length-1][1] : 1) + "</td> \
-                             <td class=\"btn\"><a>Show</a></td> \
+                             <td class=\"\"><a><button class=\"btn\">보기</button></a></td> \
                           </tr>"
                 }
             }
@@ -201,14 +201,14 @@ var UserDetail = new function () {
 
             self.active = null;
 
-            $('tr.global td.btn', self.navigator).click();
+            $('tr.global td a button.btn', self.navigator).click();
 
             $("#UserDetail_bg").addClass("open");
         }
     };
 
     self.show_global = function () {
-        self.title_label.text("Global");
+        self.title_label.text("전체");
         self.submission_table.html("");
 
         var intervals = new Array();
@@ -276,9 +276,8 @@ var UserDetail = new function () {
 <table> \
     <thead> \
         <tr> \
-            <td>Time</td> \
-            <td>Score</td> \
-            <td>Token</td> \
+            <td>시각</td> \
+            <td>점수</td> \
             " + (DataStore.tasks[task_id]['extra_headers'].length > 0 ? "<td>" + DataStore.tasks[task_id]['extra_headers'].join("</td><td>") + "</td>" : "") + " \
         </tr> \
     </thead> \
@@ -287,7 +286,7 @@ var UserDetail = new function () {
         if (self.submissions[task_id].length == 0) {
             res += " \
         <tr> \
-            <td colspan=\"" + (3 + DataStore.tasks[task_id]['extra_headers'].length) + "\">no submissions</td> \
+            <td colspan=\"" + (3 + DataStore.tasks[task_id]['extra_headers'].length) + "\">제출 없음</td> \
         </tr>";
         } else {
             for (var i in self.submissions[task_id]) {
@@ -298,7 +297,6 @@ var UserDetail = new function () {
         <tr> \
             <td>" + time + "</td> \
             <td>" + round_to_str(submission['score'], DataStore.tasks[task_id]['score_precision']) + "</td> \
-            <td>" + (submission["token"] ? 'Yes' : 'No') + "</td> \
             " + (submission["extra"].length > 0 ? "<td>" + submission["extra"].join("</td><td>") + "</td>" : "") + " \
         </tr>";
             }

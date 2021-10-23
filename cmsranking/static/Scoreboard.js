@@ -95,6 +95,10 @@ var Scoreboard = new function () {
 
         // Create callbacks for UserPanel
         self.tbody_el.on("click", "td.f_name, td.l_name", function () {
+            Array.prototype.forEach.call(document.getElementsByTagName('canvas'), function (item) {
+                item.width = $("#UserDetail").width() - 20;
+                item.hegiht = $("#UserDetail").height() - 20;
+            });
             UserDetail.show($(this).parent().data("user"));
         });
 
@@ -153,9 +157,7 @@ var Scoreboard = new function () {
         var result = " \
 <col class=\"sel\"/> \
 <col class=\"rank\"/> \
-<col class=\"f_name\"/> <col/><col/><col/><col/><col/><col/><col/><col/><col/> \
-<col class=\"l_name\"/> <col/><col/><col/><col/><col/><col/><col/><col/><col/> \
-<col class=\"team\"/>";
+<col class=\"f_name\"/> <col/><col/><col/><col/><col/><col/><col/><col/><col/>";
 
         var contests = DataStore.contest_list;
         for (var i in contests) {
@@ -187,10 +189,8 @@ var Scoreboard = new function () {
         var result = " \
 <tr> \
     <th class=\"sel\"></th> \
-    <th class=\"rank\">Rank</th> \
-    <th colspan=\"10\" class=\"f_name\">First Name</th> \
-    <th colspan=\"10\" class=\"l_name\">Last Name</th> \
-    <th class=\"team\">Team</th>";
+    <th class=\"rank\">순위</th> \
+    <th colspan=\"10\" class=\"f_name\">이름</th>";
 
         var contests = DataStore.contest_list;
         for (var i in contests) {
@@ -211,7 +211,7 @@ var Scoreboard = new function () {
         }
 
         result += " \
-    <th colspan=\"5\" class=\"score global\" data-sort_key=\"global\">Global</th> \
+    <th colspan=\"5\" class=\"score global\" data-sort_key=\"global\">총점</th> \
 </tr>";
 
         return result;
@@ -235,7 +235,7 @@ var Scoreboard = new function () {
 <tr class=\"user" + (user["selected"] > 0 ? " selected color" + user["selected"] : "") + "\" data-user=\"" + user["key"] + "\"> \
     <td class=\"sel\"></td> \
     <td class=\"rank\">" + user["rank"] + "</td> \
-    <td colspan=\"10\" class=\"f_name\">" + escapeHTML(user["f_name"]) + "</td> \
+    <td colspan=\"10\" class=\"f_name\">" + escapeHTML(user["f_name"]) + "</td>";/* \
     <td colspan=\"10\" class=\"l_name\">" + escapeHTML(user["l_name"]) + "</td>";
 
         if (user['team']) {
@@ -244,7 +244,7 @@ var Scoreboard = new function () {
         } else {
             result += " \
     <td class=\"team\"></td>";
-        }
+        }*/
 
         var contests = DataStore.contest_list;
         for (var i in contests) {
