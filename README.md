@@ -87,3 +87,35 @@ find an updated list at <http://cms-dev.github.io/testimonials.html>.
 If you used CMS for a contest, selection, or a similar event, and want
 to publicize this information, we would be more than happy to hear
 from you and add it to that list.
+
+
+
+
+From now on, wrote by Jeonghoo Moon
+===================================
+I've edited cms/server/contest and cmsranking files so that CMS's design can
+be changed to fit to WI40ZE from IamCoder 39th. This version of CMS is not
+being used as a financial purpose. I've edited its frontend a lot and changed
+little of its backend.
+
+Files are at <http://github.com/mjhmjh1104/cms.git/>.
+
+However, this is not the original version of CMS. The oiginal version of CMS
+is avaliable at hompage above <http://cms-dev.github.io/>.
+
+This version of CMS is not designed for other personal uses by organizations 
+other than IamCoder of GSHS. And, it is not designed to support langues other
+than Korean. You may edit this CMS and use wherever you want as long as it
+does not violate the rules from original CMS and GNU Affero General Public
+License.
+
+Even though you can find out some of the codes in this version of CMS are from
+my other projects, I did not use any of the libraries that was not on the
+original CMS.
+
+There should be some bugs. If you find a bug, you may let me know and I don't
+know whether I will fix it or not. Maybe you can fix it.
+
+There is a bug of CMS encountering error when no problems are avaliable. But I
+didn't fix it because there will be no situation of no problems being avaliable
+in WI40ZE anyway.

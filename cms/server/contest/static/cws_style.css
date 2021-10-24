@@ -1,8 +1,7 @@
 /* Always show the scrollbar */
 
 body {
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow: hidden;
 }
 
 /* Add some padding to the top of the page to avoid the static navbar from
