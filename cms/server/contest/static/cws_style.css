@@ -1,6 +1,7 @@
 /* Always show the scrollbar */
 
 body {
+    overflow-x: hidden;
     overflow-y: scroll;
 }
 
@@ -10,7 +11,7 @@ body {
    media-query rule
  */
 
-@media (min-width: 980px) {
+@media (min-width: 1000px) {
     #main {
         position: relative;
         padding-top: 20px;
@@ -153,30 +154,15 @@ div.login_container {
 
 div.login_box {
     max-width: 450px;
-    margin: 0 auto;
-}
-
-@media (max-width: 979px) {
-    div.navbar.navbar-fixed-top {
-        margin-bottom: 20px;
-    }
 }
 
 @media (max-width: 979px) and (min-height: 488px) {
     div.login_container {
         position: fixed;
-        top: 50%;
         left: 0;
         right: 0;
         bottom: 0;
         margin: 0;
-        padding: 0 20px;
-    }
-
-    div.login_box {
-        /* The total height of the box is 2*60 (padding) + 60 (h2) +
-           (27+9) (p) + 2*(28+18) (inputs) + 40 (buttons) = 348px; */
-        margin-top: -174px;
     }
 }
 
@@ -717,8 +703,9 @@ td.token_rules p:last-child {
 .license_notice {
     display: block;
     text-align: center;
-    padding: 0 65px;
     font-size: 11px;
+    margin-left: calc(50% - 110px);
+    position: absolute;
 }
 
 /*** Attachments */

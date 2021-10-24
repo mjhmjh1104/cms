@@ -49,7 +49,7 @@ $(document).ready(function () {
 {% block body %}
         <div id="navigation_bar" class="navbar navbar-fixed-top">
             <div class="navbar-inner">
-                <div id="navigation" class="container">
+                <div id="navigation" class="container nav_hidden">
                     <div class="brand_cover" onclick="navigationSwap()">
                         <a class="brand">{{ contest.description }}</a>
                         <div class="closeForm" style="display: none; background-image: url('{{ url("static", "img", "glyphicons-halflings.png") }}')"></div>
@@ -150,16 +150,16 @@ $(document).ready(function () {
         {% endif %}
                             </ul>
                         </div>
-                        <span class="license_notice">
-                            <a href="https://github.com/cms-dev/cms" rel="author noreferrer" target="_blank">{% trans %}Contest Management System{% endtrans %}</a>
-                            {% trans %}is released under the{% endtrans %}
-                            <a href="https://www.gnu.org/licenses/agpl" rel="license noreferrer" target="_blank">{% trans %}GNU Affero General Public License{% endtrans %}</a>.<br />
-                            <img src="{{ url("static", "img", "iamcoder.png") }}" class="logo"></img><span class="logotext">나코더 2022</span><br />
-                            <img src="{{ url("static", "img", "gshs.png") }}" class="logo"></img><span class="logotext">경기과학고등학교</span><br />
-                            21040 문정후 / mjhmjh1104@gmail.com
-                        </span>
                     </div>
 {% endif %}
+                <span class="license_notice">
+                    <a href="https://github.com/cms-dev/cms" rel="author noreferrer" target="_blank">{% trans %}Contest Management System{% endtrans %}</a>
+                    {% trans %}is released under the{% endtrans %}
+                    <a href="https://www.gnu.org/licenses/agpl" rel="license noreferrer" target="_blank">{% trans %}GNU Affero General Public License{% endtrans %}</a>.<br />
+                    <img src="{{ url("static", "img", "iamcoder.png") }}" class="logo"></img><span class="logotext">나코더 2022</span><br />
+                    <img src="{{ url("static", "img", "gshs.png") }}" class="logo"></img><span class="logotext">경기과학고등학교</span><br />
+                    21040 문정후 / mjhmjh1104@gmail.com
+                </span>
                 </div>
             </div>
         </div>
