@@ -152,10 +152,6 @@ div.login_container {
     margin-bottom: 20px;
 }
 
-div.login_box {
-    max-width: 450px;
-}
-
 @media (max-width: 979px) and (min-height: 488px) {
     div.login_container {
         position: fixed;
