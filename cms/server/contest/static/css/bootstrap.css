@@ -1355,13 +1355,15 @@ body, #main {
     display: none;
 }
 
-.row, .span9 {
-    height: 100%;
-}
-
 .span9 {
     overflow-y: auto;
     scrollbar-width: none;
+    height: 100%;
+}
+
+.row_container {
+    height: calc(100% - 20px);
+    margin-top: 20px;
 }
 
 .span9::-webkit-scrollbar {
