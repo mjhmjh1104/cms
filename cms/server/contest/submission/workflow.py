@@ -158,7 +158,7 @@ def accept_submission(sql_session, file_cacher, participation, task, timestamp,
                 N_("Invalid submission format!"),
                 N_("Please select the correct files."))
 
-    if any(len(content) > config.max_submission_length
+    if any(len(content) > config.max_submission_length * 10
            for content in files.values()):
         raise UnacceptableSubmission(
             N_("Submission too big!"),
