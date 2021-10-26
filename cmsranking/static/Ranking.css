@@ -106,7 +106,7 @@ abbr {
 @media not screen and (min-width: 1000px) {
     #TimeView {
         top: 35px;
-        width: calc(100% - 40px)cm;
+        width: calc(100% - 40px);
     }
 }
 
