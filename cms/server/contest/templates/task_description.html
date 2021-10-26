@@ -27,7 +27,7 @@
 <div class="row statement one_statement">
     <div class="span9">
     {% for lang_code in task.statements %}
-        <a href="{{ contest_url("tasks", task.name, "statements", lang_code) }}" class="btn btn-large btn-success">{% trans %}Download task statement{% endtrans %}</a>
+        <a href="{{ contest_url("tasks", task.name, "statements", lang_code) }}" class="btn btn-large btn-success"><button>{% trans %}Download task statement{% endtrans %}</button></a>
     {% endfor %}
     </div>
 </div>
