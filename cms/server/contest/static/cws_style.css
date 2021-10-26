@@ -1,7 +1,15 @@
 /* Always show the scrollbar */
 
-body {
-    overflow: hidden;
+@media (min-width: 1000px) {
+    body {
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+}
+@media not screen and (min-width: 1000px) {
+    body {
+        overflow: hidden;
+    }
 }
 
 /* Add some padding to the top of the page to avoid the static navbar from
