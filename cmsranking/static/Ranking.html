@@ -6,15 +6,18 @@
         <link rel="shortcut icon" href="img/favicon.ico" />
         <link rel='stylesheet' href='Ranking.css'>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script> 
         <script>
 if (typeof jQuery == 'undefined') {
     document.write(unescape("%3Cscript src='lib/jquery.js'%3E%3C/script%3E"));
+}
+if (typeof Raphael == 'undefined') {
+    document.write(unescape("%3Cscript src='lib/raphael.js'%3E%3C/script%3E"));
 }
 if (!("EventSource" in window)) {
     document.write(unescape("%3Cscript src='lib/eventsource.js'%3E%3C/script%3E"));
 }
         </script>
-        <script src="lib/raphael.js"></script>
         <!--[if lt IE 9]>
             <script src="lib/explorercanvas.js"></script>
         <![endif]-->
