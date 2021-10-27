@@ -2,6 +2,9 @@ $(document).ready(function () {
   Array.prototype.forEach.call(document.getElementsByTagName('button'), function(item) {
     item.addEventListener('mousedown', createRipple);
   });
+  Array.prototype.forEach.call($('.dropdown-toggle'), function(item) {
+    item.addEventListener('mousedown', createRipple);
+  });
   Array.prototype.forEach.call(document.getElementsByTagName('textarea'), function(item) {
     item.addEventListener('keyup', autoGrow);
   });
