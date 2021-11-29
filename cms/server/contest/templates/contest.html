@@ -78,48 +78,89 @@ $(document).ready(function () {
                         {% endtrans %}
                     </p>
                     <div class="span3">
-                        <h3 id="server_time_box" class="time_box">
+                        <!--<h3 id="server_time_box" class="time_box">
                             <span id="server_time_label" class="time_label">{% trans %}Server time:{% endtrans %}</span>
                             <span id="server_time" class="pull-right time_countdown"></span>
-                        </h3>
+                        </h3>-->
                         <h3 id="countdown_box" class="time_box">
                             <span id="countdown_label" class="time_label"></span>
                             <span id="countdown" class="pull-right time_countdown"></span>
                         </h3>
                         <div class="well pull-left" style="padding: 8px 0;">
                             <ul class="nav nav-list">
-
                                 <li{% if page == "overview" %} class="active"{% endif %}>
-                                    <a href="{{ contest_url() }}">{% trans %}Overview{% endtrans %}
-                                        <span class="label">
-                                            <div class="icon" style="background-image: url('{{ url("static", "img", "glyphicons-halflings.png") }}'); background-position: 0px -24px;"></div>
-                                        </span>
-                                    </a>
+                                    <div class="overflow alert alert-block notification">
+                                        <h4 class="alert-heading">{{ contest.description }}</h4>
+                                        <span>{{ total_score }} / {{ total_score_max }}</span>
+                                    </div>
+                                    <div class="popup-outer">
+                                        <div class="popup-inner">
+                                            <a class="popup-background" href="{{ contest_url() }}">
+                                                <span style="font-size:20px;margin-left:30px;">{{ total_score }}</span>
+                                                <span>&nbsp;/ {{ total_score_max }}</span>
+                                            </a>
+                                            <a class="popup-public scoreboard-public scoreboard-part-solved" style="width:{{ total_score / total_score_max * 100.0 }}%" href="{{ contest_url() }}">
+                                                <span style="font-size:20px;margin-left:30px;">{{ total_score }}</span>
+                                                <span>&nbsp;/ {{ total_score_max }}</span>
+                                            </a>
+                                            <a href="{{ contest_url() }}">{% trans %}Overview{% endtrans %}
+                                                <span class="label"><div class="mini-label">
+                                                    <div class="icon" style="background-image: url('{{ url("static", "img", "glyphicons-halflings.png") }}'); background-position: 0px -24px;"></div>
+                                                </div></span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </li>
                                 <li{% if page == "communication" %} class="active"{% endif %}>
                                     <a href="{{ contest_url("communication") }}">{% trans %}Communication{% endtrans %}
-                                        <span class="label">
+                                        <span class="label"><div class="mini-label">
                                             <div class="icon" style="background-image: url('{{ url("static", "img", "glyphicons-halflings.png") }}'); background-position: -48px -144px;"></div>
                                             <span id="unread_count" class="label-warning no_unread"></span>
-                                        </span>
+                                        </div></span>
                                     </a>
                                 </li>
         {% if actual_phase == 0 or actual_phase == 3 or participation.unrestricted %}
             {% for t_iter in contest.tasks %}
                                 <li class="nav-header">
-                                    <a href="{{ contest_url("tasks", t_iter.name, "description") }}">{{ t_iter.title }}
-                                    {% if score_list is defined %}
-                                        {% if score_list[t_iter.name] == t_iter.active_dataset.score_type_object.max_public_score %}
-                                        <span class="label grad solved">○</span>
-                                        {% else %}
-                                        {% if score_list[t_iter.name] == 0 %}
-                                        <span class="label grad unsolved">×</span>
-                                        {% else %}
-                                        <span class="label grad part-solved">▵</span>
+                                    <div class="overflow alert alert-block notification">
+                                        <h4 class="alert-heading">{{ t_iter.title }}</h4>
+                                        {% if score_list is defined %}
+                                        <span>{{ score_list[t_iter.name] }} / {{ t_iter.active_dataset.score_type_object.max_public_score }}</span>
                                         {% endif %}
-                                        {% endif %}
-                                    {% endif %}
-                                    </a>
+                                    </div>
+                                    <div class="popup-outer">
+                                        <div class="popup-inner">
+                                            <a class="popup-background" href="{{ contest_url("tasks", t_iter.name, "description") }}">
+                                                <span style="font-size:20px;margin-left:30px;">
+                                                    {% if score_list is defined %}
+                                                        {{ score_list[t_iter.name] }}
+                                                    {% else %}
+                                                        0
+                                                    {% endif %}
+                                                </span>
+                                                <span>&nbsp;/ {{ t_iter.active_dataset.score_type_object.max_public_score }}</span>
+                                            </a>
+                                            {% if score_list is defined %}
+                                                <a class="popup-public scoreboard-public scoreboard-part-solved" style="width:{{ score_list[t_iter.name] / t_iter.active_dataset.score_type_object.max_public_score * 100.0 }}%" href="{{ contest_url("tasks", t_iter.name, "description") }}">
+                                                    <span style="font-size:20px;margin-left:30px;">{{ score_list[t_iter.name] }}</span>
+                                                    <span>&nbsp;/ {{ t_iter.active_dataset.score_type_object.max_public_score }}</span>
+                                                </a>
+                                            {% endif %}
+                                            <a href="{{ contest_url("tasks", t_iter.name, "description") }}">{{ t_iter.title }}
+                                            {% if score_list is defined %}
+                                                {% if score_list[t_iter.name] == t_iter.active_dataset.score_type_object.max_public_score %}
+                                                <span class="label grad solved"><div class="mini-label"><div class="mini-text">○</div></div></span>
+                                                {% else %}
+                                                {% if score_list[t_iter.name] == 0 %}
+                                                <span class="label grad unsolved"><div class="mini-label"><div class="mini-text">×</div></div></span>
+                                                {% else %}
+                                                <span class="label grad part-solved"><div class="mini-label"><div class="mini-text">▵</div></div></span>
+                                                {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                            </a>
+                                        </div>
+                                    </div>
                                 </li>
                                 <!--<li{% if page == "task_description" and task == t_iter %} class="active"{% endif %}>
                                     <a href="{{ contest_url("tasks", t_iter.name, "description") }}">{% trans %}Statement{% endtrans %}</a>
@@ -131,9 +172,9 @@ $(document).ready(function () {
         {% endif %}
                                 <li{% if page == "documentation" %} class="active"{% endif %}>
                                     <a href="{{ contest_url("documentation") }}">{% trans %}Documentation{% endtrans %}
-                                        <span class="label">
+                                        <span class="label"><div class="mini-label">
                                             <div class="icon" style="background-image: url('{{ url("static", "img", "glyphicons-halflings.png") }}'); background-position: -23px -24px;"></div>
-                                        </span>
+                                        </div></span>
                                     </a>
                                 </li>
         {% if actual_phase == 0 or participation.unrestricted %}{# FIXME maybe >= 0? #}
