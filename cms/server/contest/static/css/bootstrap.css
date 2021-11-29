@@ -1408,44 +1408,45 @@ body, #main {
 }
 
 .mini-label {
-  width:38px;
-  height:38px;
-  border-radius:20px;
-  transition-duration:.4s;
-  float:right;
-  margin-right:21px;
+  width: 38px;
+  height: 38px;
+  border-radius: 20px;
+  transition-duration: .4s;
+  float: right;
+  margin-right: 21px;
 }
 
 .nav_hidden a:hover {
-  background-color:white;
+  background-color: white;
 }
 
 .nav_hidden a:hover .mini-label {
-  background-color:#E0E0E0;
+  background-color: #E0E0E0;
 }
 
 .overflow {
-  transition-duration:.2s;
-  opacity:0;
-  position:absolute;
-  top:-12px;
-  left:400px;
+  transition-duration: .2s;
+  opacity: 0;
+  position: absolute;
+  top: -12px;
+  left: 400px;
+  pointer-events: none;
 }
 
 .nav_hidden li:hover .overflow {
-  opacity:1;
+  opacity: 1;
 }
 
 .nav_hidden li:hover .overflow:hover {
-  opacity:0;
+  opacity: 0;
 }
 
 #navigation {
-  overflow:visible;
+  overflow: visible;
 }
 
 .nav li {
-  position:relative;
+  position: relative;
 }
 
 .part-solved .mini-text {
