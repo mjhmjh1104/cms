@@ -24,11 +24,18 @@ $(document).ready(function () {
         if ($(document).width() >= 1000) document.getElementById('main').style.top = '20px';
         else document.getElementById('main').style.top = '0';
     }
+    var curr = new Date().getTime();
+    while (ripples.length > 0 && ripples[0].time + 1000 < curr) {
+      ripples[0].remove();
+      ripples.shift();
+    }
   }, 100);
   setInterval(function () {
     if ($('body')[0] && $('#task_score_public')[0]) $('body')[0].style.backgroundColor = $('#task_score_public').css('background-color');
   }, 1000);
 });
+
+var ripples = [];
 
 function offset(el, sc) {
     var rect = el.getBoundingClientRect(), scrollLeft = 0, scrollTop = 0;
@@ -60,7 +67,8 @@ function actualRipple(e, th, sc) {
   circle.style.left = e.clientX - off.left - radius / 2 + 'px';
   circle.style.top = e.clientY - off.top - radius / 2 + 'px';
   circle.style.opacity = 0;
-
+  circle.time = new Date().getTime();
+  ripples.push(circle);
   circle.classList.add('ripple');
   return circle;
 }

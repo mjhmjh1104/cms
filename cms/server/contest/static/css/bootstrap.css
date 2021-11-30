@@ -745,7 +745,7 @@ button:focus, button:active {
   opacity: 0.16;
   position: absolute;
   animation: ripple 0.4s linear;
-  pointer-events: none;
+  pointer-events: none !important;
 }
 
 @keyframes ripple {
@@ -861,8 +861,9 @@ body {
 
 .license_notice {
     pointer-events: all;
-    position: fixed;
-    bottom: 20px;
+    position: relative;
+    bottom: 0;
+    float: left;
 }
 
 .logo {
@@ -914,7 +915,6 @@ body {
 
 #navbar-info {
     position: relative;
-    margin-left: -100%;
     -webkit-transition-duration: .6s;
     transition-duration: .6s;
     width: 200%;
@@ -1195,6 +1195,14 @@ tr:hover {
     height: 30px;
 }
 
+.navbar-back {
+    position: fixed;
+    height: 100%;
+    background-color: rgba(255, 255, 255, .95);
+    margin-left: -15px;
+    margin-top: -15px;
+}
+
 @media (min-width: 600px) {
     .login_box {
         margin-top: -174px;
@@ -1213,6 +1221,9 @@ tr:hover {
     .navbar-inner .container {
         width: 385px;
         height: 100%;
+    }
+    .navbar-back {
+        width: 400px;
     }
 }
 
@@ -1243,6 +1254,9 @@ tr:hover {
     }
     .brand_hidden {
         top: -5px;
+    }
+    .navbar-back {
+        width: 100%;
     }
 }
 
@@ -1442,7 +1456,11 @@ body, #main {
 }
 
 #navigation {
-  overflow: visible;
+  overflow-x: auto;
+  overflow-y: scroll;
+  padding-right: 100%;
+  background: none;
+  pointer-events: none;
 }
 
 .nav li {
@@ -1455,4 +1473,8 @@ body, #main {
 
 .solved .mini-text {
   margin-top: -4px;
+}
+
+#navigation * {
+    pointer-events: all;
 }

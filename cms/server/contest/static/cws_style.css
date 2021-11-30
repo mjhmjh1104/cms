@@ -707,7 +707,7 @@ td.token_rules p:last-child {
     text-align: center;
     font-size: 11px;
     margin-left: calc(50% - 110px);
-    position: absolute;
+    position: relative;
 }
 
 /*** Attachments */
