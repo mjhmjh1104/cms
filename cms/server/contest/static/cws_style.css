@@ -189,42 +189,6 @@ div.login_container {
 
 /* Some fixes and enhancements of Bootstrap */
 
-@media (max-width: 767px) {
-    .modal {
-        position: fixed;
-        top: 50%;
-        left: 10px;
-        right: 10px;
-        width: auto;
-        margin: -250px 0 0;
-    }
-
-    .modal.fade.in {
-        top: 50%;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 979px) {
-    .modal.wide {
-        width: 600px;
-        margin-left: -300px;
-    }
-}
-
-@media (min-width: 980px) and (max-width: 1199px) {
-    .modal.wide {
-        width: 780px;
-        margin-left: -390px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .modal.wide {
-        width: 970px;
-        margin-left: -485px;
-    }
-}
-
 /*** Task statement */
 
 .task_description .statement.no_statement {
@@ -661,7 +625,7 @@ td.token_rules p:last-child {
 }
 
 #submission_detail table.testcase-list thead th.outcome {
-    width: 15%;
+    width: 200px;
 }
 
 #submission_detail table.testcase-list thead th.execution-time,
