@@ -38,7 +38,6 @@ $(document).ready(function () {
     utils.update_unread_count(0{% if page == "communication" %}, 0{% endif %});
     utils.update_notifications(true);
     setInterval(function() { utils.update_notifications(); }, 30000);
-    $('#main').css('top', $('#navigation_bar').outerHeight());
 });
     {% endif %}
 

@@ -20,10 +20,6 @@ $(document).ready(function () {
     item.addEventListener('mousedown', nosc_createRipple);
   });
   setInterval(function () {
-    if (document.getElementById('main')) {
-        if ($(document).width() >= 1000) document.getElementById('main').style.top = '20px';
-        else document.getElementById('main').style.top = '0';
-    }
     var curr = new Date().getTime();
     while (ripples.length > 0 && ripples[0].time + 1000 < curr) {
       ripples[0].remove();

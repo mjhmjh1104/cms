@@ -528,7 +528,6 @@ td.token_rules p:last-child {
 
 #submission_detail .modal-body {
     position: relative;
-    height: 400px;
 }
 
 #submission_detail .modal-body .loading {
