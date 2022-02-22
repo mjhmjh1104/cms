@@ -1581,11 +1581,13 @@ body, #main {
 .first-span {
     font-size: 20px;
     margin-left: 30px;
+    float: none;
 }
 
 .second-span {
     margin-top: 1px;
     margin-left: 5px;
+    float: none;
 }
 
 .public_score, .public_score * {
