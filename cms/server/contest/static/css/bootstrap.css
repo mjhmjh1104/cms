@@ -1486,7 +1486,7 @@ body, #main {
   position: absolute;
   top: -12px;
   left: 400px;
-  pointer-events: none !imoprtant;
+  pointer-events: none !important;
 }
 
 .nav_hidden li:hover .overflow {
@@ -1517,7 +1517,7 @@ body, #main {
   margin-top: -4px;
 }
 
-#navigation * {
+#navigation *:not(.overflow) {
     pointer-events: all;
 }
 
