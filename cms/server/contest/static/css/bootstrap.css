@@ -1606,6 +1606,10 @@ body, #main {
     height: 300px;
     max-height: 300px;
     overflow-y: scroll;
+    font-family: "Consolas", Monospace;
+    color: white;
+    background-color: #333;
+    reisze: none;
 }
 
 #submit_solution div {
