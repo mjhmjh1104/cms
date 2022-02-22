@@ -25,8 +25,10 @@
 
 {% block additional_js %}
 
-$(document).on("click", ".submission_list tbody tr td.public_score div a", function (event) {
-    var submission_id = $(this).parent().parent().parent().attr("data-submission");
+$(document).on("click", ".submission_list tbody tr td.public_score, .submission_list tbody tr td.public_score div a", function (event) {
+    var tmp = $(this).parent(), submission_id;
+    if (tmp.attr("data-submission")) submission_id = tmp.attr("data-submission");
+    else submission_id = tmp.parent().parent().attr("data-submission");
     var modal = $("#submission_detail");
     var modal_body = modal.children(".modal-body");
     modal_body.html('<div class="loading">{% trans %}loading...{% endtrans %}</div>');
@@ -262,6 +264,7 @@ $(document).ready(function () {
 {% endif %}
 
 <h2 style="margin-bottom: 10px">{% trans %}Submit a solution{% endtrans %}</h2>
+파일을 선택하거나 소스 코드를 붙여 넣으세요.
 
 {% set task_type = get_task_type(dataset=task.active_dataset) %}
 {% if task_type.ALLOW_PARTIAL_SUBMISSION %}
@@ -299,6 +302,11 @@ $(document).ready(function () {
                             <option value="{{ lang }}">{{ lang }}</option>
 {% endfor %}
                         </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <textarea name="source" id="source-area"></textarea>
                     </div>
                 </div>
 {% endif %}

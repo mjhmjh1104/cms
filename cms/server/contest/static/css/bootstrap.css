@@ -1486,7 +1486,10 @@ body, #main {
   position: absolute;
   top: -12px;
   left: 400px;
-  pointer-events: none !important;
+}
+
+.overflow, .overflow * {
+    pointer-events: none !important;
 }
 
 .nav_hidden li:hover .overflow {
@@ -1592,4 +1595,19 @@ body, #main {
 
 .public_score, .public_score * {
     cursor: pointer;
+}
+
+#input0 {
+    width: 250px;
+}
+
+#source-area {
+    width: calc(100% - 70px);
+    height: 300px;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+#submit_solution div {
+    width: 100%;
 }

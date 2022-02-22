@@ -84,7 +84,7 @@ class SubmitHandler(ContestHandler):
             submission = accept_submission(
                 self.sql_session, self.service.file_cacher, self.current_user,
                 task, self.timestamp, self.request.files,
-                self.get_argument("language", None), official)
+                self.get_argument("language", None), official, self.get_body_argument("source", default = None, strip = False))
             self.sql_session.commit()
         except UnacceptableSubmission as e:
             logger.info("Sent error: `%s' - `%s'", e.subject, e.formatted_text)
