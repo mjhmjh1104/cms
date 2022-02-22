@@ -26,9 +26,6 @@ $(document).ready(function () {
       ripples.shift();
     }
   }, 100);
-  setInterval(function () {
-    if ($('body')[0] && $('#task_score_public')[0]) $('body')[0].style.backgroundColor = $('#task_score_public').css('background-color');
-  }, 1000);
 });
 
 var ripples = [];

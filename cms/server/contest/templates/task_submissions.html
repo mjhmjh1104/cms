@@ -25,11 +25,11 @@
 
 {% block additional_js %}
 
-$(document).on("click", ".submission_list tbody tr td.status .details", function (event) {
-    var submission_id = $(this).parent().parent().attr("data-submission");
+$(document).on("click", ".submission_list tbody tr td.public_score div a", function (event) {
+    var submission_id = $(this).parent().parent().parent().attr("data-submission");
     var modal = $("#submission_detail");
     var modal_body = modal.children(".modal-body");
-    modal_body.html('<div class="loading"><!--<img src="{{ url("static", "loading.gif") }}"/>-->{% trans %}loading...{% endtrans %}</div>');
+    modal_body.html('<div class="loading">{% trans %}loading...{% endtrans %}</div>');
     modal_body.load(utils.contest_url("tasks", "{{ task.name }}", "submissions", submission_id, "details"), function() {
         $(".score_details .subtask .subtask-head").each(function () {
             $(this).prepend("<i class=\"icon-chevron-right\"></i>");
@@ -78,29 +78,68 @@ function get_score_class (score, max_score) {
  * task_score_is_partial (Boolean): if some submission has yet to be scored.
  * max_score (Number): maximum score of the task.
  */
-update_score = function(score_elem, task_score_elem,
+update_score = function(score_elem, task_score_elem, label_elem, icon_elem, popup_elem, popup_score_elem, popup_score_background_elem, alert_elem,
         score, score_message,
         task_score, task_score_message, task_score_is_partial,
         max_score) {
     // Submission row.
     if (score !== undefined) {
+        score_elem.html("<div class=\"inner_score\"><a class=\"popup-background\"><span class=\"first-span\" style=\"font-size:20px;margin-left:30px;\"></span><span class=\"second-span\"></span></a><a class=\"popup-public scoreboard-public\" style=\"width:0;\"><span class=\"first-span\" style=\"font-size:20px;margin-left:30px;\"></span><span class=\"second-span\"></span></a></div>");
+        var child_div = score_elem.children(".inner_score");
+        var background = child_div.children(".popup-background");
+        var popup = child_div.children(".popup-public");
+        if (score == max_score) popup.addClass("scoreboard-solved");
+        else popup.addClass("scoreboard-part-solved");
+        popup.width("" + (score / max_score * 100) + "%");
+        background.children(".first-span").html("" + score.toFixed({{ task.score_precision }}));
+        background.children(".second-span").html("&nbsp;/ " + max_score.toFixed({{ task.score_precision }}));
+        popup.children(".first-span").html("" + score.toFixed({{ task.score_precision }}));
+        popup.children(".second-span").html("&nbsp;/ " + max_score.toFixed({{ task.score_precision }}));
         score_elem.addClass(get_score_class(score, max_score));
         score_elem.removeClass("undefined");
-        score_elem.text(score_message);
+        alert_elem.html(score.toFixed({{ task.score_precision }}) + " / " + max_score.toFixed({{ task.score_precision }}));
     }
 
     // Task score.
+    var diff = score - parseFloat(popup_score_elem.html());
     var task_score_span = task_score_elem.find(".score");
     task_score_span.text(task_score_message);
-    if (task_score_is_partial) {
-        task_score_span.append(
-            $("<!--<img class=\"details\" src=\"{{ url("static", "loading.gif") }}\"/>-->"));
-    }
     task_score_elem.removeClass("undefined");
     task_score_elem.removeClass("score_0");
     task_score_elem.removeClass("score_0_100");
     task_score_elem.removeClass("score_100");
     task_score_elem.addClass(get_score_class(task_score, max_score));
+    $('body').addClass(get_score_class(task_score, max_score));
+    label_elem.removeClass("unsolved");
+    label_elem.removeClass("solved");
+    label_elem.removeClass("part-solved");
+    popup_elem.removeClass("scoreboard-solved");
+    popup_elem.removeClass("scoreboard-part-solved");
+    if (task_score <= 0) {
+        label_elem.addClass("unsolved");
+        icon_elem.html("×");
+        popup_elem.addClass("scoreboard-part-solved");
+    } else if (task_score >= max_score) {
+        label_elem.addClass("solved");
+        icon_elem.html("○");
+        popup_elem.addClass("scoreboard-solved");
+    } else {
+        label_elem.addClass("part-solved");
+        icon_elem.html("▵");
+        popup_elem.addClass("scoreboard-part-solved");
+    }
+    popup_elem.width("" + (task_score / max_score * 100) + "%");
+    popup_score_elem.html(task_score.toFixed({{ task.score_precision }}));
+    popup_score_background_elem.html(task_score.toFixed({{ task.score_precision }}));
+    var total = parseFloat($("#total_score").html()) + diff;
+    $("#total_score").html("" + total);
+    $("#total_score_background").html("" + total);
+    $("#total_alert").html("" + total + " / " + {{ total_score_max }});
+    $("#total_popup").removeClass("scoreboard-solved");
+    $("#total_popup").removeClass("scoreboard-part-solved");
+    if (total == {{ total_score_max }}) $("#total_popup").addClass("scoreboard-solved");
+    else $("#total_popup").addClass("scoreboard-part-solved");
+    $("#total_popup").width("" + (total / {{ total_score_max }} * 100) + "%");
 };
 
 update_scores = function (submission_id, data) {
@@ -113,21 +152,14 @@ update_scores = function (submission_id, data) {
             $("<!--<img class=\"details\" src=\"{{ url("static", "loading.gif") }}\"/>-->"));
     } else {
         row.children("td.status").append(
-            $("<a class=\"details\"><button>{% trans %}details{% endtrans %}</button></a>"));
+            $("<!--<a class=\"details\"><button>{% trans %}details{% endtrans %}</button></a>-->"));
     }
     if (terminal_status) {
         update_score(
-            row.children("td.public_score"), $("#task_score_public"),
+            row.children("td.public_score"), $("#task_score_public"), $("#{{ task.name }}-label"), $("#{{ task.name }}-icon"), $("#{{ task.name }}-popup"), $("#{{ task.name }}-score"), $("#{{ task.name }}-score-background"), $("#{{ task.name }}-alert"),
             data["public_score"], data["public_score_message"],
             data["task_public_score"], data["task_public_score_message"],
             data["task_score_is_partial"], data["max_public_score"]);
-{% if can_use_tokens %}
-        update_score(
-            row.children("td.total_score"), $("#task_score_tokened"),
-            data["score"], data["score_message"],
-            data["task_tokened_score"], data["task_tokened_score_message"],
-            data["task_score_is_partial"], data["max_score"]);
-{% endif %}
     } else {
         schedule_update_scores(submission_id);
     }
@@ -138,7 +170,7 @@ schedule_update_scores = function (submission_id) {
         schedule_update_scores.delays = {};
     }
     if (!schedule_update_scores.delays[submission_id]) {
-        schedule_update_scores.delays[submission_id] = 1000.0;
+        schedule_update_scores.delays[submission_id] = 100.0;
     } else {
         // We want exponential backoff, but slightly staggered across submissions to
         // avoid asking about all of them at the same time, so we use 1.4 plus a
@@ -159,6 +191,7 @@ $(document).ready(function () {
     $('.submission_list tbody tr[data-status][data-status!="{{ SubmissionResult.COMPILATION_FAILED }}"][data-status!="{{ SubmissionResult.SCORED }}"]').each(function (idx, elem) {
         schedule_update_scores($(this).attr("data-submission"));
     });
+    $('body').addClass(get_score_class({{ score_list[task.name] }}, {{ task.active_dataset.score_type_object.max_public_score }}));
 });
 
 {% endblock additional_js %}

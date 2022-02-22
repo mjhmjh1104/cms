@@ -2,6 +2,24 @@
 
 {% set page = "task_description" %}
 
+{% block additional_js %}
+
+function get_score_class (score, max_score) {
+    if (score <= 0) {
+        return "score_0";
+    } else if (score >= max_score) {
+        return "score_100";
+    } else {
+        return "score_0_100";
+    }
+};
+
+$(document).ready(function () {
+    $('body').addClass(get_score_class({{ score_list[task.name] }}, {{ task.active_dataset.score_type_object.max_public_score }}));
+});
+
+{% endblock additional_js %}
+
 {% block core %}
 
 {% set name=task.name %}

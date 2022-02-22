@@ -913,7 +913,7 @@ msgid "unknown"
 msgstr "알 수 없음"
 
 msgid "loading..."
-msgstr "로딩 중"
+msgstr "로드 중"
 
 #, python-format
 msgid "%(name)s (%(short_name)s) <small>submissions</small>"
@@ -1059,4 +1059,3 @@ msgstr "인쇄할 쪽이 너무 많습니다"
 
 msgid "Sent to printer"
 msgstr "전송 완료"
-

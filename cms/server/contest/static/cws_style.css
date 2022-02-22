@@ -368,15 +368,15 @@ td.token_rules p:last-child {
     margin-left: 5px;
 }
 
-.task_score.score_0 {
+.score_0 {
     background-color: hsla(0, 100%, 50%, 0.4);
 }
 
-.task_score.score_0_100 {
+.score_0_100 {
     background-color: hsla(60, 100%, 50%, 0.4);
 }
 
-.task_score.score_100 {
+.score_100 {
     background-color: hsla(120, 100%, 50%, 0.4);
 }
 
@@ -639,8 +639,8 @@ td.token_rules p:last-child {
 #submission_detail table.testcase-list tbody tr:not(.undefined) td.outcome .outcome {
     display: inline-block;
     width: 100%;
-    height: 24px;
-    line-height: 24px;
+    height: 40px;
+    line-height: 40px;
     color: white;
 }
 
@@ -669,7 +669,7 @@ td.token_rules p:last-child {
     display: block;
     text-align: center;
     font-size: 11px;
-    margin-left: calc(50% - 110px);
+    margin-left: calc(50% - 127px);
     position: relative;
 }
 

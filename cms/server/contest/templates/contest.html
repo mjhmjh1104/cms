@@ -91,16 +91,20 @@ $(document).ready(function () {
                                 <li{% if page == "overview" %} class="active"{% endif %}>
                                     <div class="overflow alert alert-block notification">
                                         <h4 class="alert-heading">{{ contest.description }}</h4>
-                                        <span>{{ total_score }} / {{ total_score_max }}</span>
+                                        <span id="total_alert">{{ total_score }} / {{ total_score_max }}</span>
                                     </div>
                                     <div class="popup-outer">
                                         <div class="popup-inner">
                                             <a class="popup-background" href="{{ contest_url() }}">
-                                                <span style="font-size:20px;margin-left:30px;">{{ total_score }}</span>
+                                                <span style="font-size:20px;margin-left:30px;" id="total_score_background">{{ total_score }}</span>
                                                 <span>&nbsp;/ {{ total_score_max }}</span>
                                             </a>
-                                            <a class="popup-public scoreboard-public scoreboard-part-solved" style="width:{{ total_score / total_score_max * 100.0 }}%" href="{{ contest_url() }}">
-                                                <span style="font-size:20px;margin-left:30px;">{{ total_score }}</span>
+                                            {% if total_score == total_score_max %}
+                                            <a class="popup-public scoreboard-public scoreboard-solved" id="total_popup" style="width:{{ total_score / total_score_max * 100.0 }}%" href="{{ contest_url() }}">
+                                            {% else %}
+                                            <a class="popup-public scoreboard-public scoreboard-part-solved" id="total_popup" style="width:{{ total_score / total_score_max * 100.0 }}%" href="{{ contest_url() }}">
+                                            {% endif %}
+                                                <span style="font-size:20px;margin-left:30px;" id="total_score">{{ total_score }}</span>
                                                 <span>&nbsp;/ {{ total_score_max }}</span>
                                             </a>
                                             <a href="{{ contest_url() }}">{% trans %}Overview{% endtrans %}
@@ -125,36 +129,40 @@ $(document).ready(function () {
                                     <div class="overflow alert alert-block notification">
                                         <h4 class="alert-heading">{{ t_iter.title }}</h4>
                                         {% if score_list is defined %}
-                                        <span>{{ score_list[t_iter.name] }} / {{ t_iter.active_dataset.score_type_object.max_public_score }}</span>
+                                        <span id="{{ t_iter.name }}-alert">{{ "{:.{}f}".format(score_list[t_iter.name], t_iter.score_precision) }} / {{ "{:.{}f}".format(t_iter.active_dataset.score_type_object.max_public_score, t_iter.score_precision) }}</span>
                                         {% endif %}
                                     </div>
                                     <div class="popup-outer">
                                         <div class="popup-inner">
                                             <a class="popup-background" href="{{ contest_url("tasks", t_iter.name, "description") }}">
-                                                <span style="font-size:20px;margin-left:30px;">
+                                                <span id="{{ t_iter.name }}-score-background" style="font-size:20px;margin-left:30px;">
                                                     {% if score_list is defined %}
-                                                        {{ score_list[t_iter.name] }}
+                                                        {{ "{:.{}f}".format(score_list[t_iter.name], t_iter.score_precision) }}
                                                     {% else %}
-                                                        0
+                                                        {{ "{:.{}f}".format(0, t_iter.score_precision) }}
                                                     {% endif %}
                                                 </span>
-                                                <span>&nbsp;/ {{ t_iter.active_dataset.score_type_object.max_public_score }}</span>
+                                                <span>&nbsp;/ {{ "{:.{}f}".format(t_iter.active_dataset.score_type_object.max_public_score, t_iter.score_precision) }}</span>
                                             </a>
                                             {% if score_list is defined %}
-                                                <a class="popup-public scoreboard-public scoreboard-part-solved" style="width:{{ score_list[t_iter.name] / t_iter.active_dataset.score_type_object.max_public_score * 100.0 }}%" href="{{ contest_url("tasks", t_iter.name, "description") }}">
-                                                    <span style="font-size:20px;margin-left:30px;">{{ score_list[t_iter.name] }}</span>
-                                                    <span>&nbsp;/ {{ t_iter.active_dataset.score_type_object.max_public_score }}</span>
+                                                {% if score_list[t_iter.name] == t_iter.active_dataset.score_type_object.max_public_score %}
+                                                <a class="popup-public scoreboard-public scoreboard-solved" id="{{ t_iter.name }}-popup" style="width:{{ score_list[t_iter.name] / t_iter.active_dataset.score_type_object.max_public_score * 100.0 }}%" href="{{ contest_url("tasks", t_iter.name, "description") }}">
+                                                {% else %}
+                                                <a class="popup-public scoreboard-public scoreboard-part-solved" id="{{ t_iter.name }}-popup" style="width:{{ score_list[t_iter.name] / t_iter.active_dataset.score_type_object.max_public_score * 100.0 }}%" href="{{ contest_url("tasks", t_iter.name, "description") }}">
+                                                {% endif %}
+                                                    <span id="{{ t_iter.name }}-score" style="font-size:20px;margin-left:30px;">{{ "{:.{}f}".format(score_list[t_iter.name], t_iter.score_precision) }}</span>
+                                                    <span>&nbsp;/ {{ "{:.{}f}".format(t_iter.active_dataset.score_type_object.max_public_score, t_iter.score_precision) }}</span>
                                                 </a>
                                             {% endif %}
                                             <a href="{{ contest_url("tasks", t_iter.name, "description") }}">{{ t_iter.title }}
                                             {% if score_list is defined %}
                                                 {% if score_list[t_iter.name] == t_iter.active_dataset.score_type_object.max_public_score %}
-                                                <span class="label grad solved"><div class="mini-label"><div class="mini-text">○</div></div></span>
+                                                <span class="label grad solved" id="{{ t_iter.name }}-label"><div class="mini-label"><div class="mini-text" id="{{ t_iter.name }}-icon">○</div></div></span>
                                                 {% else %}
                                                 {% if score_list[t_iter.name] == 0 %}
-                                                <span class="label grad unsolved"><div class="mini-label"><div class="mini-text">×</div></div></span>
+                                                <span class="label grad unsolved" id="{{ t_iter.name }}-label"><div class="mini-label"><div class="mini-text" id="{{ t_iter.name }}-icon">×</div></div></span>
                                                 {% else %}
-                                                <span class="label grad part-solved"><div class="mini-label"><div class="mini-text">▵</div></div></span>
+                                                <span class="label grad part-solved" id="{{ t_iter.name }}-label"><div class="mini-label"><div class="mini-text" id="{{ t_iter.name }}-icon">▵</div></div></span>
                                                 {% endif %}
                                                 {% endif %}
                                             {% endif %}
@@ -197,8 +205,8 @@ $(document).ready(function () {
                     <a href="https://github.com/cms-dev/cms" rel="author noreferrer" target="_blank">{% trans %}Contest Management System{% endtrans %}</a>
                     {% trans %}is released under the{% endtrans %}
                     <a href="https://www.gnu.org/licenses/agpl" rel="license noreferrer" target="_blank">{% trans %}GNU Affero General Public License{% endtrans %}</a>.<br />
-                    <img src="{{ url("static", "img", "iamcoder.png") }}" class="logo"></img><span class="logotext">나코더 2022</span><br />
-                    <img src="{{ url("static", "img", "gshs.png") }}" class="logo"></img><span class="logotext">경기과학고등학교</span><br />
+                    <img src="{{ url("static", "img", "iamcoder.png") }}" class="logo" style="width:100px;"></img><span class="logotext">나코더 2022</span><br />
+                    <img src="{{ url("static", "img", "gshs.png") }}" class="logo" style="width:30px;"></img><span class="logotext">과학영재학교 경기과학고등학교</span><br />
                     21040 문정후 / mjhmjh1104@gmail.com
                 </span>
                 </div>

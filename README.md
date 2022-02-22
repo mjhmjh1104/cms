@@ -112,10 +112,3 @@ License.
 Even though you can find out some of the codes in this version of CMS are from
 my other projects, I did not use any of the libraries that was not on the
 original CMS.
-
-There should be some bugs. If you find a bug, you may let me know and I don't
-know whether I will fix it or not. Maybe you can fix it.
-
-There is a bug of CMS encountering error when no problems are avaliable. But I
-didn't fix it because there will be no situation of no problems being avaliable
-in WI40ZE anyway.

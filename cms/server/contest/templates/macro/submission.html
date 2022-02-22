@@ -150,7 +150,7 @@ submissions_download_allowed (bool): whether to allow users to download
       <!--<img class="details" src="{{ url("static", "loading.gif") }}" />-->
 {% elif status == SubmissionResult.COMPILATION_FAILED %}
         {% trans %}Compilation failed{% endtrans %}
-        <a class="details"><button>{% trans %}details{% endtrans %}</button></a>
+        <!--<a class="details"><button>{% trans %}details{% endtrans %}</button></a>-->
 {% elif status == SubmissionResult.EVALUATING %}
         {% trans %}Evaluating...{% endtrans %}
       <!--<img class="details" src="{{ url("static", "loading.gif") }}" />-->
@@ -159,13 +159,26 @@ submissions_download_allowed (bool): whether to allow users to download
       <!--<img class="details" src="{{ url("static", "loading.gif") }}" />-->
 {% elif status == SubmissionResult.SCORED %}
         {% trans %}Evaluated{% endtrans %}
-        <a class="details"><button>{% trans %}details{% endtrans %}</button></a>
+        <!--<a class="details"><button>{% trans %}details{% endtrans %}</button></a>-->
 {% endif %}
     </td>
 {% if score_type is defined and score_type.max_public_score > 0 %}
     {% if status == SubmissionResult.SCORED %}
     <td class="public_score {{ get_score_class(sr.public_score, score_type.max_public_score, task.score_precision) }}">
-        {{ score_type.format_score(sr.public_score, score_type.max_public_score, sr.public_score_details, task.score_precision, translation=translation) }}
+        <div class="inner_score">
+            <a class="popup-background">
+                <span style="font-size:20px;margin-left:30px;">{{ "{:.{}f}".format(sr.public_score | float, task.score_precision) }}</span>
+                <span>&nbsp;/ {{ "{:.{}f}".format(score_type.max_public_score | float, task.score_precision) }}</span>
+            </a>
+            {% if sr.public_score == score_type.max_public_score %}
+            <a class="popup-public scoreboard-public scoreboard-solved" style="width: {{ 100.0 * (sr.public_score | float) / (score_type.max_public_score | float) }}%;">
+            {% else %}
+            <a class="popup-public scoreboard-public scoreboard-part-solved" style="width: {{ 100.0 * (sr.public_score | float) / (score_type.max_public_score | float) }}%;">
+            {% endif %}
+                <span style="font-size:20px;margin-left:30px;">{{ "{:.{}f}".format(sr.public_score | float, task.score_precision) }}</span>
+                <span>&nbsp;/ {{ "{:.{}f}".format(score_type.max_public_score | float, task.score_precision) }}</span>
+            </a>
+        </div>
     </td>
     {% else %}
     <td class="public_score undefined">
