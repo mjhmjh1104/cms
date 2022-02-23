@@ -45,7 +45,7 @@ class JavaJDK(Language):
     @property
     def source_extensions(self):
         """See Language.source_extensions."""
-        return [".java"]
+        return [".java", ".sourcecode"]
 
     @property
     def executable_extension(self):

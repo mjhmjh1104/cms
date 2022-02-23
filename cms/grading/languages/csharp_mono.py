@@ -41,7 +41,7 @@ class CSharpMono(Language):
     @property
     def source_extensions(self):
         """See Language.source_extensions."""
-        return [".cs"]
+        return [".cs", ".sourcecode"]
 
     @property
     def executable_extension(self):

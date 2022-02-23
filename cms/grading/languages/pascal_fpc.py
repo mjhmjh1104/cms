@@ -38,7 +38,7 @@ class PascalFpc(CompiledLanguage):
     @property
     def source_extensions(self):
         """See Language.source_extensions."""
-        return [".pas"]
+        return [".pas", ".sourcecode"]
 
     @property
     def header_extensions(self):

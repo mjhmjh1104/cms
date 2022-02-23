@@ -43,7 +43,7 @@ class Python2CPython(CompiledLanguage):
     @property
     def source_extensions(self):
         """See Language.source_extensions."""
-        return [".py"]
+        return [".py", ".sourcecode"]
 
     @property
     def executable_extension(self):

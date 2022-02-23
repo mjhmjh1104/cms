@@ -872,7 +872,7 @@ body {
 .logotext {
     position: relative;
     top: -2px;
-    font-size: 15px;
+    font-size: 13px;
     margin-left: 10px;
     font-weight: bold;
 }
@@ -1609,7 +1609,7 @@ body, #main {
     font-family: "Consolas", Monospace;
     color: white;
     background-color: #333;
-    reisze: none;
+    resize: none;
 }
 
 #submit_solution div {

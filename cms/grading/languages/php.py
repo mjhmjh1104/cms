@@ -38,7 +38,7 @@ class Php(Language):
     @property
     def source_extensions(self):
         """See Language.source_extensions."""
-        return [".php"]
+        return [".php", ".sourcecode"]
 
     @property
     def executable_extension(self):

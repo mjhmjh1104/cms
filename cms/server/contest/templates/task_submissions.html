@@ -264,7 +264,7 @@ $(document).ready(function () {
 {% endif %}
 
 <h2 style="margin-bottom: 10px">{% trans %}Submit a solution{% endtrans %}</h2>
-파일을 선택하거나 소스 코드를 붙여 넣으세요.
+파일을 선택하거나 소스 코드를 붙여 넣으세요.<br />
 
 {% set task_type = get_task_type(dataset=task.active_dataset) %}
 {% if task_type.ALLOW_PARTIAL_SUBMISSION %}

@@ -40,7 +40,7 @@ class HaskellGhc(CompiledLanguage):
     @property
     def source_extensions(self):
         """See Language.source_extensions."""
-        return [".hs"]
+        return [".hs", ".sourcecode"]
 
     @property
     def object_extensions(self):

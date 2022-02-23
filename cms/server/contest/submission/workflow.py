@@ -136,23 +136,18 @@ def accept_submission(sql_session, file_cacher, participation, task, timestamp,
             raise UnacceptableSubmission(
                 N_("Invalid submission format!"),
                 N_("Please select the correct files."))
-        source_item = { "filename": "main.cpp", "body": "", "content_type": "text/plain" }
+        source_item = { "filename": "main.sourcecode", "body": "", "content_type": "text/plain" }
         source_item["body"] = bytes(textarea, "UTF-8")
         tornado_files = { next(iter(required_codenames)): [] }
         tornado_files[next(iter(required_codenames))].append(httputil.HTTPFile(source_item))
-    logger.info(required_codenames)
-    logger.info(tornado_files)
-    logger.info(type(required_codenames))
-    logger.info(type(tornado_files))
-    logger.info(type(tornado_files[next(iter(required_codenames))]))
-    logger.info(type(tornado_files[next(iter(required_codenames))][0]))
+    
     try:
         received_files = extract_files_from_tornado(tornado_files)
     except InvalidArchive:
         raise UnacceptableSubmission(
             N_("Invalid archive format!"),
             N_("The submitted archive could not be opened."))
-    logger.info(received_files)
+    
     try:
         files, language = match_files_and_language(
             received_files, language_name, required_codenames,
@@ -190,8 +185,7 @@ def accept_submission(sql_session, file_cacher, participation, task, timestamp,
             logger.error("Submission local copy failed.", exc_info=True)
 
     # We now have to send all the files to the destination...
-    logger.info(files)
-    logger.info(language)
+
     try:
         for codename, content in files.items():
             digest = file_cacher.put_file_content(

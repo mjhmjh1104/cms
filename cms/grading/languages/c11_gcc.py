@@ -38,7 +38,7 @@ class C11Gcc(CompiledLanguage):
     @property
     def source_extensions(self):
         """See Language.source_extensions."""
-        return [".c"]
+        return [".c", ".sourcecode"]
 
     @property
     def header_extensions(self):
