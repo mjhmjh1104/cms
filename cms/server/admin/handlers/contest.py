@@ -211,7 +211,7 @@ class RemoveContestHandler(BaseHandler):
         self.render("contest_remove.html", **self.r_params)
 
     @require_permission(BaseHandler.PERMISSION_ALL)
-    def delete(self, contest_id):
+    def post(self, contest_id):
         contest = self.safe_get_item(Contest, contest_id)
 
         self.sql_session.delete(contest)

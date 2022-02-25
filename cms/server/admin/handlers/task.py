@@ -283,7 +283,7 @@ class StatementHandler(BaseHandler):
     # No page for single statements.
 
     @require_permission(BaseHandler.PERMISSION_ALL)
-    def delete(self, task_id, statement_id):
+    def post(self, task_id, statement_id):
         statement = self.safe_get_item(Statement, statement_id)
         task = self.safe_get_item(Task, task_id)
 
@@ -355,7 +355,7 @@ class AttachmentHandler(BaseHandler):
     # No page for single attachments.
 
     @require_permission(BaseHandler.PERMISSION_ALL)
-    def delete(self, task_id, attachment_id):
+    def post(self, task_id, attachment_id):
         attachment = self.safe_get_item(Attachment, attachment_id)
         task = self.safe_get_item(Task, task_id)
 
@@ -487,7 +487,7 @@ class RemoveTaskHandler(BaseHandler):
         self.render("task_remove.html", **self.r_params)
 
     @require_permission(BaseHandler.PERMISSION_ALL)
-    def delete(self, task_id):
+    def post(self, task_id):
         task = self.safe_get_item(Task, task_id)
         contest_id = task.contest_id
         num = task.num

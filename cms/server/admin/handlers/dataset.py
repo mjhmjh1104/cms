@@ -393,7 +393,7 @@ class DeleteManagerHandler(BaseHandler):
 
     """
     @require_permission(BaseHandler.PERMISSION_ALL)
-    def delete(self, dataset_id, manager_id):
+    def post(self, dataset_id, manager_id):
         manager = self.safe_get_item(Manager, manager_id)
         dataset = self.safe_get_item(Dataset, dataset_id)
 
@@ -550,7 +550,7 @@ class DeleteTestcaseHandler(BaseHandler):
 
     """
     @require_permission(BaseHandler.PERMISSION_ALL)
-    def delete(self, dataset_id, testcase_id):
+    def post(self, dataset_id, testcase_id):
         testcase = self.safe_get_item(Testcase, testcase_id)
         dataset = self.safe_get_item(Dataset, dataset_id)
 

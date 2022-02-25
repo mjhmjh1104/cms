@@ -103,7 +103,7 @@ update_score = function(score_elem, task_score_elem, label_elem, icon_elem, popu
     }
 
     // Task score.
-    var diff = score - parseFloat(popup_score_elem.html());
+    var diff = task_score - parseFloat(popup_score_elem.html());
     var task_score_span = task_score_elem.find(".score");
     task_score_span.text(task_score_message);
     task_score_elem.removeClass("undefined");

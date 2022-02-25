@@ -115,7 +115,7 @@ class RemoveParticipationHandler(BaseHandler):
         self.render("participation_remove.html", **self.r_params)
 
     @require_permission(BaseHandler.PERMISSION_ALL)
-    def delete(self, contest_id, user_id):
+    def post(self, contest_id, user_id):
         self.contest = self.safe_get_item(Contest, contest_id)
         user = self.safe_get_item(User, user_id)
 

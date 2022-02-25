@@ -91,7 +91,7 @@ $("select[name=task_type_{{ dataset.id }}]").change(function() {
                     Primary?
                   </label>
                 </td>
-                <td><a onclick="CMS.AWSUtils.ajax_delete('{{ url("task", task.id, "statement", statement.id) }}'); ">Delete</a></td>
+                <td><a onclick="CMS.AWSUtils.ajax_post('{{ url("task", task.id, "statement", statement.id) }}'); ">Delete</a></td>
               </tr>
             {% endfor %}
             </tbody>
@@ -114,7 +114,7 @@ $("select[name=task_type_{{ dataset.id }}]").change(function() {
             {% for attachment in task.attachments.values() %}
               <div class="attachment">
                 <a href="{{ url("file", attachment.digest, attachment.filename) }}">{{ attachment.filename }}</a>
-                - <a onclick="CMS.AWSUtils.ajax_delete('{{ url("task", task.id, "attachment", attachment.id) }}'); ">Delete</a>
+                - <a onclick="CMS.AWSUtils.ajax_post('{{ url("task", task.id, "attachment", attachment.id) }}'); ">Delete</a>
               </div>
             {% endfor %}
           {% endif %}
@@ -401,7 +401,7 @@ $("select[name=task_type_{{ dataset.id }}]").change(function() {
               {% for manager in dataset.managers.values() %}
                 <div class="manager">
                   <a href="{{ url("file", manager.digest, manager.filename) }}">{{ manager.filename }}</a>
-                  - <a onclick="CMS.AWSUtils.ajax_delete('{{ url("dataset", dataset.id, "manager", manager.id, "delete") }}');">Delete</a>
+                  - <a onclick="CMS.AWSUtils.ajax_post('{{ url("dataset", dataset.id, "manager", manager.id, "delete") }}');">Delete</a>
                 </div>
               {% endfor %}
             {% endif %}
@@ -468,7 +468,7 @@ $("select[name=task_type_{{ dataset.id }}]").change(function() {
               <a href="javascript:void(0);" onclick="utils.show_file('output_{{ testcase.codename }}','{{ url("file", testcase.output, "output_%s"|format(testcase.codename)) }}')">Show output</a>
             </td>
             <td>
-              <a onclick="CMS.AWSUtils.ajax_delete('{{ url("dataset", dataset.id, "testcase", testcase.id, "delete") }}');">Delete</a>
+              <a onclick="CMS.AWSUtils.ajax_post('{{ url("dataset", dataset.id, "testcase", testcase.id, "delete") }}');">Delete</a>
             </td>
           </tr>
           {% endfor %}

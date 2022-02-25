@@ -134,7 +134,7 @@ class RemoveUserHandler(BaseHandler):
         self.render("user_remove.html", **self.r_params)
 
     @require_permission(BaseHandler.PERMISSION_ALL)
-    def delete(self, user_id):
+    def post(self, user_id):
         user = self.safe_get_item(User, user_id)
 
         self.sql_session.delete(user)
