@@ -652,7 +652,7 @@ button.close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-ap
     display: block;
     text-align: center;
     color: black;
-    font-size: 30px;
+    font-size: 25px;
     line-height: 100%;
     font-weight: bold;
     text-align: left;
@@ -1520,7 +1520,7 @@ body, #main {
   margin-top: -4px;
 }
 
-#navigation *:not(.overflow) {
+#navigation *:not(.overflow,#navbar-info) {
     pointer-events: all;
 }
 
