@@ -92,7 +92,7 @@ update_score = function(score_elem, task_score_elem, label_elem, icon_elem, popu
         var popup = child_div.children(".popup-public");
         if (score == max_score) popup.addClass("scoreboard-solved");
         else popup.addClass("scoreboard-part-solved");
-        popup.width("" + (score / max_score * 100) + "%");
+        popup.width("" + (task_score / max_score * 100) + "%");
         background.children(".first-span").html("" + score.toFixed({{ task.score_precision }}));
         background.children(".second-span").html("&nbsp;/ " + max_score.toFixed({{ task.score_precision }}));
         popup.children(".first-span").html("" + score.toFixed({{ task.score_precision }}));
@@ -127,7 +127,7 @@ update_score = function(score_elem, task_score_elem, label_elem, icon_elem, popu
         popup_elem.addClass("scoreboard-solved");
     } else {
         label_elem.addClass("part-solved");
-        icon_elem.html("▵");
+        icon_elem.html("○");
         popup_elem.addClass("scoreboard-part-solved");
     }
     popup_elem.width("" + (task_score / max_score * 100) + "%");
