@@ -92,14 +92,14 @@ update_score = function(score_elem, task_score_elem, label_elem, icon_elem, popu
         var popup = child_div.children(".popup-public");
         if (score == max_score) popup.addClass("scoreboard-solved");
         else popup.addClass("scoreboard-part-solved");
-        popup.width("" + (task_score / max_score * 100) + "%");
+        popup.width("" + (score / max_score * 100) + "%");
         background.children(".first-span").html("" + score.toFixed({{ task.score_precision }}));
         background.children(".second-span").html("&nbsp;/ " + max_score.toFixed({{ task.score_precision }}));
         popup.children(".first-span").html("" + score.toFixed({{ task.score_precision }}));
         popup.children(".second-span").html("&nbsp;/ " + max_score.toFixed({{ task.score_precision }}));
         score_elem.addClass(get_score_class(score, max_score));
         score_elem.removeClass("undefined");
-        alert_elem.html(score.toFixed({{ task.score_precision }}) + " / " + max_score.toFixed({{ task.score_precision }}));
+        alert_elem.html(task_score.toFixed({{ task.score_precision }}) + " / " + max_score.toFixed({{ task.score_precision }}));
     }
 
     // Task score.
