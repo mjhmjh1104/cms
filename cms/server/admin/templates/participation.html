@@ -169,11 +169,11 @@ function update_additional_answer(element, invoker)
             <input type="hidden" name="ref" value="/contest/{{ contest.id }}/user/{{ selected_user.id }}/edit"/>
             Precompiled answer:
             <select name="reply_question_quick_answer" onchange="update_additional_answer({{ loop.index0 }}, this);">
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-              <option value="answered">Answered in task description</option>
-              <option value="invalid">Invalid question</option>
-              <option value="nocomment">No comment</option>
+              <option value="yes">네.</option>
+              <option value="no">아니요.</option>
+              <option value="answered">문제를 다시 한번 읽어 주시기 바랍니다.</option>
+              <option value="invalid">답변할 수 없는 형식의 질문입니다.</option>
+              <option value="nocomment">답변할 수 없습니다.</option>
               <option selected value="other">Other</option>
             </select>
             <br/>

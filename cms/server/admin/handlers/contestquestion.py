@@ -62,11 +62,11 @@ class QuestionReplyHandler(BaseHandler):
 
     """
     QUICK_ANSWERS = {
-        "yes": "Yes",
-        "no": "No",
-        "answered": "Answered in task description",
-        "invalid": "Invalid question",
-        "nocomment": "No comment",
+        "yes": "네.",
+        "no": "아니요.",
+        "answered": "문제를 다시 한번 읽어 주시기 바랍니다.",
+        "invalid": "답변할 수 없는 형식의 질문입니다.",
+        "nocomment": "답변할 수 없습니다."
     }
 
     @require_permission(BaseHandler.PERMISSION_MESSAGING)
