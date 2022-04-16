@@ -37,15 +37,13 @@ class GroupMinCustom(ScoreTypeGroup):
     def get_public_outcome(self, outcome, parameter):
         if outcome <= 0.0:
             return N_("Not correct")
-        elif outcome <= 1.0:
-            return N_("Partially correct")
-        elif outcome <= 2.0:
-            return N_("Partially correct")
-        else
+        elif outcome >= len(parameter[2]):
             return N_("Correct")
+        else:
+            return N_("Partially correct")
 
     def reduce(self, outcomes, parameter):
         min_outcomes = min(outcomes)
-        points_list = parameter[1]
-        return points_list[min_outcomes] / points_list[-1];
+        points_list = parameter[2]
+        return points_list[int(min_outcomes)] / points_list[-1];
 
