@@ -179,12 +179,6 @@ div.login_container {
         margin: 0;
         padding: 0 20px;
     }
-
-    div.login_box {
-        /* The total height of the box is 2*60 (padding) + 60 (h2) +
-           (27+9) (p) + 2*(28+18) (inputs) + 40 (buttons) = 348px; */
-        margin-top: -174px;
-    }
 }
 
 /* Some fixes and enhancements of Bootstrap */
