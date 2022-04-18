@@ -1204,7 +1204,7 @@ tr:hover {
 
 @media (min-width: 600px) {
     .login_box {
-        margin-top: -174px;
+        transform: translateY(-50%);
         margin-left: auto;
         margin-right: auto;
     }
