@@ -1619,3 +1619,8 @@ body, #main {
 #navigation-inner::-webkit-scrollbar {
     display: none;
 }
+
+#navigation-inner:has(.label:hover) {
+    margin-right: -300px;
+    padding-right: 300px;
+}
