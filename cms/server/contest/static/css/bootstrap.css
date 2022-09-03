@@ -1615,3 +1615,7 @@ body, #main {
 #submit_solution div {
     width: 100%;
 }
+
+#navigation-inner::-webkit-scrollbar {
+    display: none;
+}
