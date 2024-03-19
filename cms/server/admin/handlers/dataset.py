@@ -31,6 +31,9 @@ import io
 import logging
 import re
 import zipfile
+import subprocess
+
+from sqlalchemy import func
 
 try:
     import tornado4.web as tornado_web
@@ -43,6 +46,8 @@ from cms.grading.scoring import compute_changes_for_dataset
 from cmscommon.datetime import make_datetime
 from cmscommon.importers import import_testcases_from_zipfile
 from .base import BaseHandler, require_permission
+from cms.grading.tasktypes import create_sandbox
+from cms.grading.steps.utils import generic_step
 
 
 logger = logging.getLogger(__name__)
@@ -363,6 +368,33 @@ class AddManagerHandler(BaseHandler):
         task_name = task.name
         self.sql_session.close()
 
+        compile_ = self.get_argument("compile", None) is not None
+
+        if compile_:
+            try:
+                assert manager["filename"].endswith(".cpp"), "not a cpp file"
+                with open("/usr/local/etc/manager.cpp", "w") as cpp_file:
+                    print(manager["body"].decode("utf-8"), file = cpp_file)
+                
+                executable_filename = manager["filename"][:-4]
+                compile_command = ["g++", "/usr/local/etc/manager.cpp", "-o",
+                        "/usr/local/etc/manager", "-I", "/usr/local/include/cms", "-DCMS"]
+                subprocess.run(compile_command, check=True)
+
+                with open("/usr/local/etc/manager", "rb") as executable_file:
+                    manager["body"] = executable_file.read()
+
+                manager["filename"] = executable_filename
+
+            except Exception as error:
+                self.service.add_notification(
+                    make_datetime(),
+                    "Manager compilation failed",
+                    repr(error))
+                self.redirect(fallback_page)
+                return
+
+
         try:
             digest = self.service.file_cacher.put_file_content(
                 manager["body"],
@@ -517,6 +549,7 @@ class AddTestcasesHandler(BaseHandler):
 
         public = self.get_argument("public", None) is not None
         overwrite = self.get_argument("overwrite", None) is not None
+        polygon = self.get_argument("polygon", None) is not None
 
         # Get input/output file names templates, or use default ones.
         input_template = self.get_argument("input_template", "input.*")
@@ -532,7 +565,7 @@ class AddTestcasesHandler(BaseHandler):
                 import_testcases_from_zipfile(
                     self.sql_session,
                     self.service.file_cacher, dataset,
-                    fp, input_re, output_re, overwrite, public)
+                    fp, input_re, output_re, overwrite, public, polygon)
         except Exception as error:
             self.service.add_notification(
                 make_datetime(), str(error), repr(error))
@@ -566,6 +599,151 @@ class DeleteTestcaseHandler(BaseHandler):
             # max_score and/or extra_headers might have changed.
             self.service.proxy_service.reinitialize()
         self.write("./%d" % task_id)
+
+
+class SubtaskTestcaseHandler(BaseHandler):
+    """Rename a testcase as subtask format using validator.
+
+    """
+    @require_permission(BaseHandler.PERMISSION_ALL)
+    def post(self, dataset_id, testcase_id):
+        testcase = self.safe_get_item(Testcase, testcase_id)
+        dataset = self.safe_get_item(Dataset, dataset_id)
+
+        try:
+            validator = self.sql_session.query(Manager).filter_by(filename="validator", dataset_id=dataset_id).first()
+            if validator is None:
+                logger.error("Validator does not exist.")
+                raise ValueError("Validator does not exist.")
+
+            sandbox = create_sandbox(self.service.file_cacher, name="validate")
+
+            sandbox.create_file_from_storage("validator", validator.digest, executable=True)
+            sandbox.create_file_from_storage("input.txt", testcase.input)
+            sandbox.create_file("output.txt")
+
+            commands = [["./validator"]]
+
+            sandbox.stdin_file = "input.txt"
+            sandbox.stdout_file = "output.txt"
+
+            sandbox.allow_writing_all()
+
+            stats = generic_step(sandbox, commands, "validation")
+            if stats is None:
+                logger.error("Sandbox failed during validation step. "
+                            "See previous logs for the reason.")
+                raise ValueError("Validation failed.")
+
+            with sandbox.get_file_text(sandbox.stdout_file) as stdout_file:
+                try:
+                    subtask_str = stdout_file.readline().strip()
+                except UnicodeDecodeError as error:
+                    logger.error("Manager stdout (outcome) is not valid UTF-8. %r",
+                                error)
+                    raise ValueError("Cannot decode the outcome.")
+            
+            if len(subtask_str) > 0:
+                suffix = "-" + subtask_str
+            else:
+                suffix = ""
+            
+            testcase.codename = testcase.codename.split("-")[0] + suffix
+            
+            if self.try_commit():
+                self.write("./%d" % dataset.task.id)
+            else:
+                raise ValueError("Something went wrong.")
+        
+        except Exception as error:
+            self.service.add_notification(
+                make_datetime(), str(error), repr(error))
+            self.write("./%d" % dataset.task.id)
+            return
+
+
+class SubtaskTestcasesHandler(BaseHandler):
+    """Rename a testcases as subtask format using validator.
+
+    """
+    @require_permission(BaseHandler.AUTHENTICATED)
+    def get(self, dataset_id):
+        dataset = self.safe_get_item(Dataset, dataset_id)
+        task = dataset.task
+        self.contest = task.contest
+
+        self.r_params = self.render_params()
+        self.r_params["task"] = task
+        self.r_params["dataset"] = dataset
+
+        q = self.sql_session.query(func.count(Testcase.id))
+        q = q.filter(Testcase.dataset_id == dataset_id)
+        self.r_params["testcases_count"] = q.scalar()
+
+        self.render("subtask_testcases.html", **self.r_params)
+
+    @require_permission(BaseHandler.PERMISSION_ALL)
+    def post(self, dataset_id):
+        dataset = self.safe_get_item(Dataset, dataset_id)
+        task = dataset.task
+        
+        try:
+            validator = self.sql_session.query(Manager).filter_by(filename="validator", dataset_id=dataset_id).first()
+            if validator is None:
+                logger.error("Validator does not exist.")
+                raise ValueError("Validator does not exist.")
+
+            sandbox = create_sandbox(self.service.file_cacher, name="validate")
+
+            sandbox.create_file_from_storage("validator", validator.digest, executable=True)
+
+            commands = [["./validator"]]
+
+            for testcase in dataset.testcases.values():
+                if sandbox.file_exists("input.txt"):
+                    sandbox.remove_file("input.txt")
+                if sandbox.file_exists("output.txt"):
+                    sandbox.remove_file("output.txt")
+
+                sandbox.create_file_from_storage("input.txt", testcase.input)
+                sandbox.create_file("output.txt")
+
+                sandbox.stdin_file = "input.txt"
+                sandbox.stdout_file = "output.txt"
+
+                sandbox.allow_writing_all()
+
+                stats = generic_step(sandbox, commands, "validation")
+                if stats is None:
+                    logger.error("Sandbox failed during validation step. "
+                                "See previous logs for the reason.")
+                    raise ValueError("Validation failed.")
+
+                with sandbox.get_file_text(sandbox.stdout_file) as stdout_file:
+                    try:
+                        subtask_str = stdout_file.readline().strip()
+                    except UnicodeDecodeError as error:
+                        logger.error("Manager stdout (outcome) is not valid UTF-8. %r",
+                                    error)
+                        raise ValueError("Cannot decode the outcome.")
+                
+                if len(subtask_str) > 0:
+                    suffix = "-" + subtask_str
+                else:
+                    suffix = ""
+                
+                testcase.codename = testcase.codename.split("-")[0] + suffix
+            
+            if self.try_commit():
+                self.service.proxy_service.reinitialize()
+                self.redirect(self.url("task", task.id))
+            else:
+                raise ValueError("Something went wrong.")
+        
+        except Exception as error:
+            self.service.add_notification(
+                make_datetime(), str(error), repr(error))
+            self.redirect(self.url("task", task.id))
 
 
 class DownloadTestcasesHandler(BaseHandler):
